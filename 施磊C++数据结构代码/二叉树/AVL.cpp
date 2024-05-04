@@ -1,265 +1,244 @@
-#include <iostream>
 #include <algorithm>
+#include <queue>
+#include <iostream>
 using namespace std;
 
-// AVL ¶ş²æÆ½ºâÊ÷
+// AVL äºŒå‰å¹³è¡¡æ ‘ï¼Œå¢åˆ æ”¹(Ologn)
 template <typename T>
 class AVLTree
 {
-public:
-    // AVLµÄ³õÊ¼»¯
-    AVLTree() : root_(nullptr) {}
-    ~AVLTree() {}
+public: // å…¬å¼€æ–¹æ³•
+    AVLTree() : root_(nullptr)
+    {
+    }
+    ~AVLTree()
+    {
+        queue<Node *> q;
+        q.push(root_);
+        while (!q.empty())
+        {
+            Node *front = q.front();
+            q.pop();
 
-    // AVLÊ÷µÄ²åÈë²Ù×÷
+            // è¿­ä»£  åˆ†åˆ«åŠ å…¥å·¦å³å­©å­
+            if (front->left_ != nullptr)
+                q.push(front->left_);
+            if (front->right_ != nullptr)
+                q.push(front->right_);
+            delete front;
+        }
+    }
+
+    // æ’å…¥æ“ä½œ
     void insert(const T &val)
     {
-        root_ = insert(root_, val); // ¿ÉÄÜÊÇ¿ÕÊ÷£¬¹Ê¸üĞÂ¿Õ½Úµã
+        root_ = insert(root_, val);
     }
-    // AVLÊ÷µÄÉ¾³ı²Ù×÷
+
+    // åˆ é™¤æ“ä½œ
     void remove(const T &val)
     {
         root_ = remove(root_, val);
     }
 
-    // µİ¹éÖĞĞò±éÀú²Ù×÷
-    void inOrder()
+private: // ç§æœ‰æˆå‘˜
+    // å®šä¹‰AVLæ ‘èŠ‚ç‚¹ç±»å‹
+    class Node
     {
-        cout << "[µİ¹é]ÖĞĞò±éÀú: " << endl;
-        inOrder(root_);
-        cout << endl;
-    }
-
-private:
-    // ¶¨ÒåAVLÊ÷½ÚµãÀàĞÍ
-    struct Node
-    {
-        Node(T data = T())
-            : data_(data), left_(nullptr), right_(nullptr), height_(1) {}
+    public:
+        Node(T data = T()) : data_(data), left_(nullptr), right_(nullptr), height_(1)
+        {
+        }
 
         T data_;
         Node *left_;
         Node *right_;
-        int height_; // ¼ÇÂ¼½ÚµãµÄ¸ß¶ÈÖµ
+        int height_;
     };
 
-    Node *root_;
+    Node *root_; // æ ¹èŠ‚ç‚¹
 
-private:
-    // ·µ»Ø½ÚµãµÄ¸ß¶ÈÖµ
+private: // ç§æœ‰æ–¹æ³•
+    // è¿”å›èŠ‚ç‚¹çš„é«˜åº¦å€¼
     int height(Node *node)
     {
         return node == nullptr ? 0 : node->height_;
     }
-    // ÓÒĞı×ª²Ù×÷ ÒÔ²ÎÊınodeÎªÖá×öÓÒĞı×ª²Ù×÷£¬²¢°ÑĞÂµÄ¸ù½Úµã·µ»Ø
+    // å³æ—‹è½¬æ“ä½œ ä»¥å‚æ•°nodeä¸ºè½´åšå³æ—‹è½¬æ“ä½œï¼Œå¹¶æŠŠæ–°çš„æ ¹èŠ‚ç‚¹è¿”å›
     Node *rightRotate(Node *node)
     {
-        // ½ÚµãĞı×ª
-        Node *child = node->left_;   // »ñµÃ½ÚµãµÄ×óº¢×Ó£¬ÒÔ×öÓÒĞı£¬³ÉÎªĞÂ¸ù½Úµã
-        node->left_ = child->right_; // ½«»ñµÃµÄchildµÄÓÒº¢×Ó¹ÒÔÚÔ­childµÄÎ»ÖÃ
-        child->right_ = node;        // ½«½Úµã¹ÒÖÁchildµÄÓÒº¢×Ó
-        // ¸ß¶È¸üĞÂ
+        // æ‰§è¡Œå³æ—‹ï¼Œè¯´æ˜å·¦å­æ ‘å·¦èŠ‚ç‚¹é«˜äº†ï¼Œåˆ™å°†å·¦èŠ‚ç‚¹ä½œä¸ºæ–°çš„å­æ ‘æ ¹èŠ‚ç‚¹ï¼ŒåŸå·¦å­æ ‘çš„å³èŠ‚ç‚¹æ¥åˆ°æ ¹èŠ‚ç‚¹çš„å·¦è¾¹
+        Node *child = node->left_;
+        node->left_ = child->right_;
+        child->right_ = node;
+        // é«˜åº¦æ›´æ–°
         node->height_ = max(height(node->left_), height(node->right_)) + 1;
         child->height_ = max(height(child->left_), height(child->right_)) + 1;
-        // ·µ»ØĞı×ªºóµÄ×ÓÊ÷ĞÂµÄ¸ù½Úµã
+        // è¿”å›æ—‹è½¬åçš„å­æ ‘æ–°çš„æ ¹èŠ‚ç‚¹
         return child;
     }
-    // ×óĞı×ª²Ù×÷ ÒÔ²ÎÊınodeÎªÖá×ö×óĞı×ª²Ù×÷£¬²¢°ÑĞÂµÄ¸ù½Úµã·µ»Ø
+    // å·¦æ—‹è½¬æ“ä½œ ä»¥å‚æ•°nodeä¸ºè½´åšå·¦æ—‹è½¬æ“ä½œï¼Œå¹¶æŠŠæ–°çš„æ ¹èŠ‚ç‚¹è¿”å›
     Node *leftRotate(Node *node)
     {
-        // ½ÚµãĞı×ª
+        // æ‰§è¡Œå·¦æ—‹ï¼Œè¯´æ˜å³å­æ ‘å³èŠ‚ç‚¹é«˜äº†ï¼Œåˆ™å°†å³èŠ‚ç‚¹ä½œä¸ºæ–°çš„å­æ ‘æ ¹èŠ‚ç‚¹ï¼ŒåŸå³å­æ ‘çš„å·¦èŠ‚ç‚¹æ¥åˆ°æ ¹èŠ‚ç‚¹çš„å³è¾¹
         Node *child = node->right_;
         node->right_ = child->left_;
         child->left_ = node;
+        // é«˜åº¦æ›´æ–°
         node->height_ = max(height(node->left_), height(node->right_)) + 1;
         child->height_ = max(height(child->left_), height(child->right_)) + 1;
-        // ·µ»ØĞı×ªºóµÄ×ÓÊ÷ĞÂµÄ¸ù½Úµã
+
         return child;
     }
-    // ×óÆ½ºâ²Ù×÷ ÒÔ²ÎÊınodeÎªÖá×ö×ó-ÓÒĞı×ª²Ù×÷£¬²¢°ÑĞÂµÄ¸ù½Úµã·µ»Ø
+    // å·¦å¹³è¡¡æ“ä½œ ä»¥å‚æ•°nodeä¸ºè½´åšå·¦-å³æ—‹è½¬æ“ä½œï¼Œå¹¶æŠŠæ–°çš„æ ¹èŠ‚ç‚¹è¿”å›
     Node *leftBalance(Node *node)
     {
-        node->left_ = leftRotate(node->left_);
+        node->left_ = leftRotate(node->left_); // æ¥ä½æ–°çš„å·¦å­©å­èŠ‚ç‚¹
         return rightRotate(node);
     }
-    // ÓÒÆ½ºâ²Ù×÷ ÒÔ²ÎÊınodeÎªÖá×öÓÒ-×óĞı×ª²Ù×÷£¬²¢°ÑĞÂµÄ¸ù½Úµã·µ»Ø
+    // å³å¹³è¡¡æ“ä½œ ä»¥å‚æ•°nodeä¸ºè½´åšå³-å·¦æ—‹è½¬æ“ä½œï¼Œå¹¶æŠŠæ–°çš„æ ¹èŠ‚ç‚¹è¿”å›
     Node *rightBalance(Node *node)
     {
-        node->right_ = leftRotate(node->right_);
-        return rightRotate(node);
+        node->right_ = rightRotate(node->right_);
+        return leftRotate(node);
     }
-    // ²åÈë²Ù×÷
+    // æ’å…¥æ“ä½œçš„å†…éƒ¨é€’å½’å®ç°
     Node *insert(Node *node, const T &val)
     {
-        if (node == nullptr) // µİ¹é½áÊøÌõ¼ş
+        if (node == nullptr) // æ‰¾åˆ°æ’å…¥ä½ç½®äº†
             node = new Node(val);
 
+        // ç»§ç»­å‘ä¸‹å¯»æ‰¾æ’å…¥ä½ç½®
         if (node->data_ > val)
         {
-            node->left_ = insert(node->left_, val); // Òª½«½Úµã·µ»Ø
-            // Ïà±ÈBST¶àµÄ²Ù:
-            // Ìí¼Ó1 ÔÚµİ¹é»ØËİÊ±ÅĞ¶Ï½ÚµãÊÇ·ñÊ§ºâ  nodeµÄ×ó×ÓÊ÷Ì«¸ß nodeÊ§ºâÁË
+            node->left_ = insert(node->left_, val);
+            // åœ¨é€’å½’å›æº¯æ—¶åˆ¤æ–­èŠ‚ç‚¹æ˜¯å¦å¤±è¡¡  nodeçš„å·¦å­æ ‘å¤ªé«˜ï¼Œnodeå¤±è¡¡äº†
             if (height(node->left_) - height(node->right_) > 1)
             {
-                if (height(node->left_->left_) > height(node->left_->right_))
-                {
-                    // ½ÚµãÊ§ºâ£¬ÓÉÓÚ×óº¢×ÓµÄ×ó×ÓÊ÷Ì«¸ß
+                // èŠ‚ç‚¹å¤±è¡¡ï¼Œç”±äºå·¦å­©å­çš„å·¦å­æ ‘å¤ªé«˜
+                if (height(node->left_->left_) - height(node->left_->right_))
                     node = rightRotate(node);
-                }
+                // èŠ‚ç‚¹å¤±è¡¡ï¼Œç”±äºå·¦å­©å­çš„å³å­æ ‘å¤ªé«˜
                 else
-                {
-                    // ½ÚµãÊ§ºâ£¬ÓÉÓÚ×óº¢×ÓµÄÓÒ×ÓÊ÷Ì«¸ß
                     node = leftBalance(node);
-                }
             }
         }
         else if (node->data_ < val)
         {
             node->right_ = insert(node->right_, val);
-            // Ìí¼Ó2 ÔÚµİ¹é»ØËİÊ±ÅĞ¶Ï½ÚµãÊÇ·ñÊ§ºâ  nodeµÄÓÒ×ÓÊ÷Ì«¸ß nodeÊ§ºâÁË
+            // åœ¨é€’å½’å›æº¯æ—¶åˆ¤æ–­èŠ‚ç‚¹æ˜¯å¦å¤±è¡¡  nodeçš„å³å­æ ‘å¤ªé«˜ï¼Œnodeå¤±è¡¡äº†
             if (height(node->right_) - height(node->left_) > 1)
             {
-                if (height(node->right_->right_) >= height(node->right_->left_))
-                {
-                    // ½ÚµãÊ§ºâ£¬ÓÉÓÚÓÒº¢×ÓµÄÓÒ×ÓÊ÷Ì«¸ß
+                // èŠ‚ç‚¹å¤±è¡¡ï¼Œç”±äºå³å­©å­çš„å³å­æ ‘å¤ªé«˜
+                if (height(node->right_->right_) - height(node->right_->left_))
                     node = leftRotate(node);
-                }
+                // èŠ‚ç‚¹å¤±è¡¡ï¼Œç”±äºå³å­©å­çš„å·¦å­æ ‘å¤ªé«˜
                 else
-                {
-                    // ½ÚµãÊ§ºâ£¬ÓÉÓÚÓÒº¢×ÓµÄ×ó×ÓÊ÷Ì«¸ß
                     node = rightBalance(node);
-                }
             }
         }
         else
-        {
-            ; // ÕÒµ½ÏàÍ¬½ÚµãÁË£¬²»ÓÃÔÙÍùÏÂµİ¹éÁË£¬Ö±½ÓÏòÉÏ»ØËİ
-        }
-        // Ìí¼Ó3 ÒòÎª×ÓÊ÷ÖĞÔö¼ÓÁËĞÂµÄ½Úµã  ÔÚµİ¹é»ØËİÊ±¼ì²â¸üĞÂ½Úµã¸ß¶È
-        node->height_ = max(height(node->left_), height(node->right_)) + 1;
+            ; // æ‰¾åˆ°ç›¸åŒèŠ‚ç‚¹ï¼Œæ— éœ€å‘ä¸‹é€’å½’ï¼Œç›´æ¥å‘ä¸Šå›æº¯
+
+        // å› ä¸ºå­æ ‘ä¸­æ–°å¢äº†èŠ‚ç‚¹ï¼Œæ‰€ä»¥éœ€è¦åœ¨é€’å½’å›æº¯æ—¶æ›´æ–°é«˜åº¦
+        node->height_ = max(height(node->left_), height(node->right_)) +
+                        1; // å› ä¸ºæ›´æ–°é«˜åº¦åœ¨æ—‹è½¬å‡½æ•°ä¸­ï¼Œå¦‚æœæ²¡å¤±è¡¡æˆ–ç¥–å…ˆåˆ™æœªæ›´æ–°ï¼Œæ•…åŠ æ­¤ä»£ç 
 
         return node;
     }
-    // AVLÊ÷µÄÉ¾³ı²Ù×÷
+    // åˆ é™¤æ“ä½œçš„å†…éƒ¨é€’å½’å®ç°
     Node *remove(Node *node, const T &val)
     {
-        if (node == nullptr)
+        if (node == nullptr) // æ²¡æœ‰å¾…åˆ èŠ‚ç‚¹
             return nullptr;
-        // ÕÒµ½´ıÉ¾½Úµã
+
         if (node->data_ > val)
         {
             node->left_ = remove(node->left_, val);
-            // ×ó×ÓÊ÷É¾³ı½Úµã£¬¿ÉÄÜÔì³ÉÓÒ×ÓÊ÷Ì«¸ß
+            // å·¦å­æ ‘åˆ é™¤èŠ‚ç‚¹ï¼Œå¯èƒ½é€ æˆå³å­æ ‘å¤ªé«˜
             if (height(node->right_) - height(node->left_) > 1)
             {
                 if (height(node->right_->right_) >= height(node->right_->left_))
-                {
-                    // ÓÒº¢×ÓµÄÓÒ×ÓÊ÷Ì«¸ß
+                    // å³å­©å­çš„å³å­æ ‘å¤ªé«˜
                     node = leftRotate(node);
-                }
                 else
-                {
-                    // ÓÒº¢×ÓµÄ×ó×ÓÊ÷Ì«¸ß
+                    // å³å­©å­çš„å·¦å­æ ‘å¤ªé«˜
                     node = rightBalance(node);
-                }
             }
         }
         else if (node->data_ < val)
         {
             node->right_ = remove(node->right_, val);
-            // ÓÒ×ÓÊ÷É¾³ı½Úµã£¬¿ÉÄÜµ¼ÖÂ×ó×ÓÊ÷Ì«¸ß
+            // å³å­æ ‘åˆ é™¤èŠ‚ç‚¹ï¼Œå¯èƒ½é€ æˆå·¦å­æ ‘å¤ªé«˜
             if (height(node->left_) - height(node->right_) > 1)
             {
                 if (height(node->left_->left_) >= height(node->left_->right_))
-                {
-                    // ×óº¢×ÓµÄ×ó×ÓÊ÷Ì«¸ß
+                    // å·¦å­©å­çš„å·¦å­æ ‘å¤ªé«˜
                     node = rightRotate(node);
-                }
                 else
-                {
-                    // ×óº¢×ÓµÄÓÒ×ÓÊ÷Ì«¸ß
+                    // å·¦å­©å­çš„å³å­æ ‘å¤ªé«˜
                     node = leftBalance(node);
-                }
             }
         }
-        else // ÕÒµ½ÁË
+        else // æ‰¾åˆ°äº†
         {
-            // ÕÒµ½ÁË ÏÈ´¦ÀíÓĞÁ½¸öº¢×ÓµÄ½ÚµãÉ¾³ıÇé¿ö
+            // å…ˆå¤„ç†æœ‰ä¸¤ä¸ªå­©å­çš„èŠ‚ç‚¹åˆ é™¤æƒ…å†µ
             if (node->left_ != nullptr && node->right_ != nullptr)
             {
-                // ÎªÁË±ÜÃâÉ¾³ıÇ°Çı»òÕßºó¼Ì½ÚµãÔì³É½ÚµãÊ§ºâ£¬Ë­¸ßÉ¾³ıË­
+                // ä¸ºäº†é¿å…åˆ é™¤å‰é©±æˆ–è€…åç»§èŠ‚ç‚¹é€ æˆèŠ‚ç‚¹å¤±è¡¡ï¼Œè°é«˜åˆ é™¤è°
                 if (height(node->left_) >= height(node->right_))
                 {
-                    // É¾Ç°Çı
+                    // åˆ å‰é©±
                     Node *pre = node->left_;
                     while (pre->right_ != nullptr)
                         pre = pre->right_;
-                    // ÓÃÇ°Çı¸²¸Ç´ıÉ¾½Úµã
                     node->data_ = pre->data_;
-                    node->left_ = remove(node->left_, pre->data_); // É¾³ıÇ°Çı½Úµã
+                    node->left_ = remove(node->left_, pre->data_); // åˆ é™¤å‰é©±èŠ‚ç‚¹
                 }
                 else
                 {
-                    // É¾ºó¼Ì
+                    // åˆ åç»§
                     Node *post = node->right_;
                     while (post->left_ != nullptr)
                         post = post->left_;
-                    // ÓÃºó¼Ì¸²¸Ç´ıÉ¾½Úµã
                     node->data_ = post->data_;
-                    node->right_ = remove(node->right_, post->data_); // É¾³ıºó¼Ì½Úµã
+                    node->right_ = remove(node->right_, post->data_); // åˆ é™¤åç»§èŠ‚ç‚¹
                 }
             }
-            else // É¾³ı½Úµã£¬×î¶àÓĞÒ»¸öº¢×Ó
+            else // åˆ é™¤èŠ‚ç‚¹ï¼Œæœ€å¤šæœ‰ä¸€ä¸ªå­©å­
             {
-                // ÅĞ¶Ï´ıÉ¾½ÚµãµÄº¢×ÓÊÇ×óÊÇÓÒ
                 if (node->left_ != nullptr)
                 {
-                    // É¾³ı½ÚµãÒÔºó£¬°Ñ·Ç¿ÕµÄ×óº¢×Ó·µ»Ø£¬»ØËİÊ±¸üĞÂÆä¸¸½ÚµãµØÖ·Óò
                     Node *left = node->left_;
                     delete node;
                     return left;
                 }
                 else if (node->right_ != nullptr)
                 {
-                    // É¾³ı½ÚµãÒÔºó£¬°Ñ·Ç¿ÕµÄÓÒº¢×Ó·µ»Ø£¬»ØËİÊ±¸üĞÂÆä¸¸½ÚµãµØÖ·Óò
-                    Node *left = node->left_;
+                    Node *right = node->right_;
                     delete node;
-                    return left;
+                    return right;
                 }
-                else // É¾³ıµÄÊÇÃ»ÓĞº¢×ÓµÄ½Úµã  Ò¶×Ó½Úµã
+                else
                 {
-                    return nullptr; // »ØËİÊ±¸üĞÂÆä¸¸½ÚµãµØÖ·ÓòÎªnullptr
+                    return nullptr; // å½“å‰èŠ‚ç‚¹ç½®ä¸ºç©º
                 }
             }
         }
-        // ¸üĞÂ½Úµã¸ß¶È
+
+        // æ›´æ–°èŠ‚ç‚¹é«˜åº¦
         node->height_ = max(height(node->left_), height(node->right_)) + 1;
-        return node; // µİ¹é»ØËİ¹ı³ÌÖĞ£¬°Ñµ±Ç°½Úµã¸ø¸¸½Úµã·µ»Ø
-    }
-    // µİ¹éÖĞĞò±éÀúµÄÊµÏÖ  LVR
-    void inOrder(Node *node)
-    {
-        if (node != nullptr)
-        {
-            inOrder(node->left_);       // L
-            cout << node->data_ << " "; // V
-            inOrder(node->right_);      // R
-        }
+        return node; // é€’å½’å›æº¯ä¸­ï¼ŒæŠŠå½“å‰èŠ‚ç‚¹ç»™çˆ¶èŠ‚ç‚¹è¿”å›
     }
 };
 int main()
 {
     AVLTree<int> avl;
-    for (int i = 0; i != 10; ++i)
+    for (int i = 1; i <= 10; ++i)
         avl.insert(i);
-    avl.inOrder();
 
-    avl.remove(6);
-    avl.inOrder();
-    avl.remove(7);
-    avl.inOrder();
-    avl.remove(8);
-    avl.inOrder();
+    avl.remove(9);
+    avl.remove(10);
 
     system("pause");
     return 0;
