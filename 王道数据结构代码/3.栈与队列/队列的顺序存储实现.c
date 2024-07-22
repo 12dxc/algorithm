@@ -2,43 +2,43 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define MaxSize 10   // ¶ÓÁĞÔªËØµÄ×î´ó¸öÊı
-#define ElemType int // ¶ÓÁĞµÄÔªËØÀàĞÍ
+#define MaxSize 10   // é˜Ÿåˆ—å…ƒç´ çš„æœ€å¤§ä¸ªæ•°
+#define ElemType int // é˜Ÿåˆ—çš„å…ƒç´ ç±»å‹
 
-// Ë³Ğò´æ´¢ÊµÏÖ¶ÓÁĞµÄ½á¹¹
+// é¡ºåºå­˜å‚¨å®ç°é˜Ÿåˆ—çš„ç»“æ„
 typedef struct SqQeque
 {
-    ElemType data[MaxSize]; // ÓÃ¾²Ì¬Êı×é´æ·Å¶ÓÁĞÔªËØ
-    int front, end;         // ¶ÓÍ·Ö¸ÕëºÍ¶ÓÎ²Ö¸Õë(ÆäÖĞ¶ÓÎ²Ö¸ÕëÖ¸ÏòµÄÊÇ¶ÓÎ²ÔªËØµÄÏÂÒ»¸öÎ»ÖÃ)
+    ElemType data[MaxSize]; // ç”¨é™æ€æ•°ç»„å­˜æ”¾é˜Ÿåˆ—å…ƒç´ 
+    int front, end;         // é˜Ÿå¤´æŒ‡é’ˆå’Œé˜Ÿå°¾æŒ‡é’ˆ(å…¶ä¸­é˜Ÿå°¾æŒ‡é’ˆæŒ‡å‘çš„æ˜¯é˜Ÿå°¾å…ƒç´ çš„ä¸‹ä¸€ä¸ªä½ç½®)
 } SqQeque;
 
-// ³õÊ¼»¯¶ÓÁĞ
-bool InitQueue(SqQeque *Q)
+// åˆå§‹åŒ–é˜Ÿåˆ—
+void InitQueue(SqQeque *Q)
 {
-    // ³õÊ¼»¯Ê±¶ÓÍ·¡¢¶ÓÎ²Ö¸ÕëÖ¸Ïò0
+    // åˆå§‹åŒ–æ—¶é˜Ÿå¤´ã€é˜Ÿå°¾æŒ‡é’ˆæŒ‡å‘0
     Q->front = 0;
     Q->end = 0;
 }
-// ÅĞ¶Ï¶ÓÁĞÊÇ·ñÎª¿Õ
+// åˆ¤æ–­é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º
 bool QueueEmpty(SqQeque Q)
 {
-    // ¶ÓÍ·ºÍ¶ÓÎ²Ö¸ÏòÍ¬Ò»¸öÔªËØËµÃ÷¶Ó¿Õ
-    if (Q.end = Q.front)
+    // é˜Ÿå¤´å’Œé˜Ÿå°¾æŒ‡å‘åŒä¸€ä¸ªå…ƒç´ è¯´æ˜é˜Ÿç©º
+    if (Q.end == Q.front)
         return true;
     else
         return false;
 }
-// Èë¶Ó
+// å…¥é˜Ÿ
 bool EnQueue(SqQeque *Q, ElemType x)
 {
-    // ¶ÓÎ²µÄÏÂÒ»¸öÖ¸ÕëÊÇ¶ÓÍ·ËµÃ÷¶ÓÎ²ÒÑÂú
+    // é˜Ÿå°¾çš„ä¸‹ä¸€ä¸ªæŒ‡é’ˆæ˜¯é˜Ÿå¤´è¯´æ˜é˜Ÿå°¾å·²æ»¡
     if ((Q->end + 1) % MaxSize == Q->front)
         return false;
-    Q->data[Q->end] = x;              // ½«x²åÈë¶ÓÎ²
-    Q->end += (Q->end + 1) % MaxSize; // ¶ÓÎ²Ö¸ÕëºóÒÆ
+    Q->data[Q->end] = x;              // å°†xæ’å…¥é˜Ÿå°¾
+    Q->end += (Q->end + 1) % MaxSize; // é˜Ÿå°¾æŒ‡é’ˆåç§»
     return true;
 }
-// ³ö¶Ó
+// å‡ºé˜Ÿ
 ElemType DeQueue(SqQeque *Q)
 {
     if ((Q->end + 1) % MaxSize == Q->front)
@@ -47,7 +47,7 @@ ElemType DeQueue(SqQeque *Q)
     Q->front = (Q->front + 1) % MaxSize;
     return x;
 }
-// »ñÈ¡¶ÓÍ·ÔªËØ£¬²¢·µ»Ø
+// è·å–é˜Ÿå¤´å…ƒç´ ï¼Œå¹¶è¿”å›
 ElemType GetHead(SqQeque Q)
 {
     if (Q.end == Q.front)
@@ -60,19 +60,19 @@ int main()
 {
     SqQeque q;
     InitQueue(&q);
-    // Îª¶ÓÁĞÌí¼Ó0~9µÄÔªËØ
+    // ä¸ºé˜Ÿåˆ—æ·»åŠ 0~9çš„å…ƒç´ 
     for (int i = MaxSize; i != 0; --i)
     {
         EnQueue(&q, i);
     }
-    // ²é¿´¶ÓÍ·
-    printf("Èë¶ÓºóµÄ¶ÓÁĞ: %d\n", GetHead(q));
-    // ³ö¶Ó
+    // æŸ¥çœ‹é˜Ÿå¤´
+    printf("å…¥é˜Ÿåçš„é˜Ÿåˆ—: %d\n", GetHead(q));
+    // å‡ºé˜Ÿ
     DeQueue(&q);
-    printf("³ö¶ÓºóµÄ¶ÓÁĞ: %d\n", GetHead(q));
+    printf("å‡ºé˜Ÿåçš„é˜Ÿåˆ—: %d\n", GetHead(q));
 
     if (QueueEmpty(q))
-        printf("¶ÓÁĞÎª¿Õ");
+        printf("é˜Ÿåˆ—ä¸ºç©º");
 
     system("pause");
     return 0;

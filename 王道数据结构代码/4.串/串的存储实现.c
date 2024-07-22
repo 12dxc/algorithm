@@ -1,6 +1,5 @@
-#include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #define MAXLEN 255 // 字符串最大长度
@@ -24,10 +23,10 @@ void StrAssign(SString *T, char *chars)
 {
     int len = strlen(chars); // 要赋值的串的长度
     if (len > MAXLEN)        // 避免赋值的串超出字符串的总容量
-        return -1;
+        return;
     for (int i = 0; i != len; ++i)
     {
-        T->ch[i] == *(chars + i);
+        T->ch[i] = *(chars + i);
     }
     T->length = len;
 }
@@ -93,7 +92,7 @@ SString SubString(SString S, int pos, int len)
 {
     // 子串越界访问
     if (pos + len - 1 > S.length)
-        return;
+        perror("子串越界访问");
     SString Sub; // 创建子串返回值
     for (int i = pos; i < pos + len; ++i)
         Sub.ch[i - pos + 1] = S.ch[i];
@@ -124,11 +123,12 @@ int Index(SString S, SString T)
         else
             return i; // 返回子串在主串中
     }
+
+    return -1;
 }
 
 int main()
 {
-    system("chcp 65001");
 
     return 0;
 }

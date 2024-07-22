@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <cstdio>
+#include <utility>
+using namespace std;
 
 // 简单选择排序
 void SelectSort(int A[], int n)
@@ -10,7 +12,7 @@ void SelectSort(int A[], int n)
             if (A[j] < A[min])          // 更新最小元素位置
                 min = j;
         if (min != i) // 移动元素
-            std::swap(A[i], A[min]);
+            swap(A[i], A[min]);
     }
 }
 

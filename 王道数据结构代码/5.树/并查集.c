@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #define SIZE 13
 int UFSets[SIZE]; // 集合元素数组
 
@@ -33,7 +30,6 @@ void Union(int s[], int root1, int root2)
 
 int main()
 {
-    system("chcp 65001");
 
     return 0;
 }

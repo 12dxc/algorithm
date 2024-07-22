@@ -5,19 +5,19 @@
 #include <vector>
 using namespace std;
 
-// BST ¶ş²æËÑË÷Ê÷ÊµÏÖ
+// BST äºŒå‰æœç´¢æ ‘å®ç°
 template <typename T, typename Comp = less<T>>
 class BSTree
 {
 public:
-    //ÓÑÔª²âÊÔº¯Êı
+    //å‹å…ƒæµ‹è¯•å‡½æ•°
     friend void test1();
 public:
     BSTree(Comp comp = Comp())
         : root_(nullptr), comp_(comp) {}
     ~BSTree()
     {
-        //Ê¹ÓÃ²ãĞò±éÀú£¬À´Öğ¸öÉ¾³ı½Úµã
+        //ä½¿ç”¨å±‚åºéå†ï¼Œæ¥é€ä¸ªåˆ é™¤èŠ‚ç‚¹
         queue<Node*> q;
         q.push(root_);
         while (!q.empty())
@@ -25,7 +25,7 @@ public:
             Node* front = q.front();
             q.pop();
 
-            //µü´ú  ·Ö±ğ¼ÓÈë×óÓÒº¢×Ó
+            //è¿­ä»£  åˆ†åˆ«åŠ å…¥å·¦å³å­©å­
             if (front->lchild != nullptr)
                 q.push(front->lchild);
             if (front->rchild != nullptr)
@@ -35,25 +35,25 @@ public:
     }
 
 public:
-    // ·Çµİ¹é²åÈë²Ù×÷
+    // éé€’å½’æ’å…¥æ“ä½œ
     void n_insert(const T& val)
     {
-        // Ê÷Îª¿Õ£¬Éú³ÉĞÂ½Úµã
+        // æ ‘ä¸ºç©ºï¼Œç”Ÿæˆæ–°èŠ‚ç‚¹
         if (root_ == nullptr)
         {
             root_ = new Node(val);
             return;
         }
 
-        // ËÑË÷ºÏÊÊµÄ²åÈëÎ»ÖÃ£¬¼ÇÂ¼¸¸½ÚµãµÄÎ»ÖÃ
+        // æœç´¢åˆé€‚çš„æ’å…¥ä½ç½®ï¼Œè®°å½•çˆ¶èŠ‚ç‚¹çš„ä½ç½®
         Node* parent = nullptr;
         Node* cur = root_;
-        // ±éÀú¶ş²æÊ÷
+        // éå†äºŒå‰æ ‘
         while (cur != nullptr)
         {
             if (cur->data_ == val)
             {
-                return; // ²»²åÈëÔªËØÏàÍ¬µÄÖµ
+                return; // ä¸æ’å…¥å…ƒç´ ç›¸åŒçš„å€¼
             }
             else if (comp_(cur->data_, val))
             {
@@ -61,43 +61,43 @@ public:
                 parent = cur;
                 cur = cur->rchild;
             }
-            else // ´óÓÚ
+            else // å¤§äº
             {
                 parent = cur;
                 cur = cur->lchild;
             }
         }
 
-        // °ÑĞÂ½Úµã²åÈëµ½parent½ÚµãµÄº¢×ÓÉÏ
+        // æŠŠæ–°èŠ‚ç‚¹æ’å…¥åˆ°parentèŠ‚ç‚¹çš„å­©å­ä¸Š
         if (comp_(val, parent->data_))
             parent->lchild = new Node(val);
         else
             parent->rchild = new Node(val);
     }
-    // µİ¹é²åÈë²Ù×÷
+    // é€’å½’æ’å…¥æ“ä½œ
     void insert(const T& val)
     {
         root_ = insert(root_, val);
     }
-    // ·Çµİ¹éÉ¾³ı²Ù×÷
+    // éé€’å½’åˆ é™¤æ“ä½œ
     void n_remove(const T& val)
     {
-        /* É¾³ı½ÚµãÓĞÈıÖÖÇé¿ö£º
-         * 1¡¢Ã»ÓĞº¢×ÓµÄ½Úµã£¬¸¸½ÚµãÖ¸ÕëÓònullptr
-         * 2¡¢ÓĞÒ»¸öº¢×Ó£¬º¢×ÓĞ´Èë¸¸½ÚµãµØÖ·Óò
-         * 3¡¢É¾³ıµÄ½ÚµãÓĞÁ½¸öº¢×Ó£¬ÕÒµ½Ç°Çı£¬ÓÃÇ°Çı¸²¸Ç´ıÉ¾½Úµã£¬È»ºó´¦ÀíÇ°Çı£¬´¦Àí·½Ê½Óë1¡¢2ÏàÍ¬*/
-        if (root_ == nullptr) // Ê÷¿ÕÖ±½Ó·µ»Ø
+        /* åˆ é™¤èŠ‚ç‚¹æœ‰ä¸‰ç§æƒ…å†µï¼š
+         * 1ã€æ²¡æœ‰å­©å­çš„èŠ‚ç‚¹ï¼Œçˆ¶èŠ‚ç‚¹æŒ‡é’ˆåŸŸnullptr
+         * 2ã€æœ‰ä¸€ä¸ªå­©å­ï¼Œå­©å­å†™å…¥çˆ¶èŠ‚ç‚¹åœ°å€åŸŸ
+         * 3ã€åˆ é™¤çš„èŠ‚ç‚¹æœ‰ä¸¤ä¸ªå­©å­ï¼Œæ‰¾åˆ°å‰é©±ï¼Œç”¨å‰é©±è¦†ç›–å¾…åˆ èŠ‚ç‚¹ï¼Œç„¶åå¤„ç†å‰é©±ï¼Œå¤„ç†æ–¹å¼ä¸1ã€2ç›¸åŒ*/
+        if (root_ == nullptr) // æ ‘ç©ºç›´æ¥è¿”å›
             return;
 
-        // ËÑË÷´ıÉ¾³ı½Úµã
-        Node* parent = nullptr; // Ö¸ÏòÆä¸¸½Úµã
-        Node* cur = root_;      // Ö¸Ïò±»É¾³ı½Úµã
-        // ±éÀú¶ş²æÊ÷
+        // æœç´¢å¾…åˆ é™¤èŠ‚ç‚¹
+        Node* parent = nullptr; // æŒ‡å‘å…¶çˆ¶èŠ‚ç‚¹
+        Node* cur = root_;      // æŒ‡å‘è¢«åˆ é™¤èŠ‚ç‚¹
+        // éå†äºŒå‰æ ‘
         while (cur != nullptr)
         {
             if (cur->data_ == val)
             {
-                break; // ÕÒµ½´ıÉ¾³ı½Úµã
+                break; // æ‰¾åˆ°å¾…åˆ é™¤èŠ‚ç‚¹
             }
             else if (!comp_(cur->data_, val))
             {
@@ -110,52 +110,52 @@ public:
                 cur = cur->lchild;
             }
         }
-        // Î´ÕÒµ½´ıÉ¾½Úµã
+        // æœªæ‰¾åˆ°å¾…åˆ èŠ‚ç‚¹
         if (cur == nullptr)
             return;
 
-        // Çé¿ö3 ->É¾³ıÇ°Çı½Úµã£¨¹é½á³ÉÇé¿ö1¡¢2£©
+        // æƒ…å†µ3 ->åˆ é™¤å‰é©±èŠ‚ç‚¹ï¼ˆå½’ç»“æˆæƒ…å†µ1ã€2ï¼‰
         if (cur->lchild != nullptr && cur->rchild != nullptr)
         {
-            parent = cur; // ¸üĞÂ¸¸½Úµã
-            // ÕÒÇ°Çı½Úµã  ¼´×ó×ÓÊ÷×îÓÒ±ßµÄ½Úµã
+            parent = cur; // æ›´æ–°çˆ¶èŠ‚ç‚¹
+            // æ‰¾å‰é©±èŠ‚ç‚¹  å³å·¦å­æ ‘æœ€å³è¾¹çš„èŠ‚ç‚¹
             Node* pre = cur->lchild;
             while (pre->rchild != nullptr)
             {
                 parent = pre;
                 pre = pre->rchild;
             }
-            cur->data_ = pre->data_; // ÓÃÇ°Çı½Úµã¸²¸Ç´ıÉ¾½ÚµãÖµ
-            cur = pre;               // ÈÃcurÖ¸ÏòÇ°Çı½Úµã£¬×ª»»³ÉÇé¿ö1¡¢2
+            cur->data_ = pre->data_; // ç”¨å‰é©±èŠ‚ç‚¹è¦†ç›–å¾…åˆ èŠ‚ç‚¹å€¼
+            cur = pre;               // è®©curæŒ‡å‘å‰é©±èŠ‚ç‚¹ï¼Œè½¬æ¢æˆæƒ…å†µ1ã€2
         }
 
-        // curÖ¸ÏòÉ¾³ı½Úµã£¬parentÖ¸ÏòÆä¸¸½Úµã£»Í³Ò»´¦ÀíÇé¿ö1»ò2
+        // curæŒ‡å‘åˆ é™¤èŠ‚ç‚¹ï¼ŒparentæŒ‡å‘å…¶çˆ¶èŠ‚ç‚¹ï¼›ç»Ÿä¸€å¤„ç†æƒ…å†µ1æˆ–2
         Node* child = cur->lchild;
         if (child == nullptr)
         {
             child = cur->rchild;
         }
 
-        if (parent == nullptr) // ÌØÊâÇé¿ö  ±íÊ¾É¾³ıµÄÊÇ¸ù½Úµã
+        if (parent == nullptr) // ç‰¹æ®Šæƒ…å†µ  è¡¨ç¤ºåˆ é™¤çš„æ˜¯æ ¹èŠ‚ç‚¹
         {
             root_ = child;
         }
         else
         {
-            // °Ñ´ıÉ¾³ı½ÚµãµÄº¢×Ó(nullptr»òÕß²»¿Õ)Ğ´ÈëÆä¸¸½ÚµãÏàÓ¦µÄµØÖ·Óò
+            // æŠŠå¾…åˆ é™¤èŠ‚ç‚¹çš„å­©å­(nullptræˆ–è€…ä¸ç©º)å†™å…¥å…¶çˆ¶èŠ‚ç‚¹ç›¸åº”çš„åœ°å€åŸŸ
             if (parent->lchild == cur)
                 parent->lchild = child;
             else
                 parent->rchild = child;
         }
-        delete cur; // É¾³ıµ±Ç°½Úµã
+        delete cur; // åˆ é™¤å½“å‰èŠ‚ç‚¹
     }
-    // µİ¹éÉ¾³ı²Ù×÷
+    // é€’å½’åˆ é™¤æ“ä½œ
     void remove(const T& val)
     {
         root_ = remove(root_, val);
     }
-    // ·Çµİ¹é²éÑ¯²Ù×÷
+    // éé€’å½’æŸ¥è¯¢æ“ä½œ
     bool n_query(const T& val)
     {
         Node* cur = root_;
@@ -170,22 +170,22 @@ public:
         }
         return false;
     }
-    // µİ¹é²éÑ¯²Ù×÷
+    // é€’å½’æŸ¥è¯¢æ“ä½œ
     bool query(const T& val)
     {
         return query(root_, val) != nullptr;
     }
-    // µİ¹éÇ°Ğò±éÀú²Ù×÷
+    // é€’å½’å‰åºéå†æ“ä½œ
     void preOrder()
     {
-        cout << "[µİ¹é]Ç°Ğò±éÀú: " << endl;
+        cout << "[é€’å½’]å‰åºéå†: " << endl;
         preOrder(root_);
         cout << endl;
     }
-    // ·Çµİ¹éÇ°Ğò±éÀú²Ù×÷  VLR
+    // éé€’å½’å‰åºéå†æ“ä½œ  VLR
     void n_preOrder()
     {
-        cout << "[·Çµİ¹é]Ç°Ğò±éÀú: " << endl;
+        cout << "[éé€’å½’]å‰åºéå†: " << endl;
         if (root_ == nullptr)
             return;
         stack<Node*> s;
@@ -204,17 +204,17 @@ public:
         }
         cout << endl;
     }
-    // µİ¹éÖĞĞò±éÀú²Ù×÷
+    // é€’å½’ä¸­åºéå†æ“ä½œ
     void inOrder()
     {
-        cout << "[µİ¹é]ÖĞĞò±éÀú: " << endl;
+        cout << "[é€’å½’]ä¸­åºéå†: " << endl;
         inOrder(root_);
         cout << endl;
     }
-    // ·Çµİ¹éÖĞĞò±éÀú²Ù×÷  LVR
+    // éé€’å½’ä¸­åºéå†æ“ä½œ  LVR
     void n_inOrder()
     {
-        cout << "[·Çµİ¹é]ÖĞĞò±éÀú: " << endl;
+        cout << "[éé€’å½’]ä¸­åºéå†: " << endl;
         if (root_ == nullptr)
             return;
         stack<Node*> s;
@@ -237,17 +237,17 @@ public:
         }
         cout << endl;
     }
-    // µİ¹éºóĞò±éÀú²Ù×÷
+    // é€’å½’ååºéå†æ“ä½œ
     void postOrder()
     {
-        cout << "[µİ¹é]ºóĞò±éÀú: " << endl;
+        cout << "[é€’å½’]ååºéå†: " << endl;
         postOrder(root_);
         cout << endl;
     }
-    // ·Çµİ¹éºóĞò±éÀú²Ù×÷  LRV
+    // éé€’å½’ååºéå†æ“ä½œ  LRV
     void n_postOrder()
     {
-        cout << "[·Çµİ¹é]ºóĞò±éÀú: " << endl;
+        cout << "[éé€’å½’]ååºéå†: " << endl;
 
         if (root_ == nullptr)
             return;
@@ -273,19 +273,19 @@ public:
         }
         cout << endl;
     }
-    // µİ¹é²ãĞò±éÀú²Ù×÷
+    // é€’å½’å±‚åºéå†æ“ä½œ
     void levelOrder()
     {
-        cout << "[µİ¹é]²ãĞò±éÀú: " << endl;
+        cout << "[é€’å½’]å±‚åºéå†: " << endl;
         int h = high();
         for (int i = 0; i != h; ++i)
             levelOrder(root_, i);
         cout << endl;
     }
-    // ·Çµİ¹é²ãĞò±éÀú²Ù×÷
+    // éé€’å½’å±‚åºéå†æ“ä½œ
     void n_levelOrder()
     {
-        cout << "[·Çµİ¹é]²ãĞò±éÀú: " << endl;
+        cout << "[éé€’å½’]å±‚åºéå†: " << endl;
         if (root_ == nullptr)
             return;
 
@@ -305,29 +305,29 @@ public:
 
         cout << endl;
     }
-    // µİ¹éÇó¶ş²æÊ÷²ãÊı
+    // é€’å½’æ±‚äºŒå‰æ ‘å±‚æ•°
     int high()
     {
         return high(root_);
     }
-    // µİ¹éÇó¶ş²æÊ÷½Úµã¸öÊı
+    // é€’å½’æ±‚äºŒå‰æ ‘èŠ‚ç‚¹ä¸ªæ•°
     int number()
     {
         return number(root_);
     }
-    // ¶Ô¶ş²æÊ÷Çø¼ä½øĞĞËÑË÷
+    // å¯¹äºŒå‰æ ‘åŒºé—´è¿›è¡Œæœç´¢
     void findRange(vector<T>& v, int l, int r)
     {
         findRange(v, root_, l, r);
     }
-    //ÅĞ¶Ï¶ş²æÊ÷ÊÇ²»ÊÇ¶ş²æËÑË÷Ê÷
+    //åˆ¤æ–­äºŒå‰æ ‘æ˜¯ä¸æ˜¯äºŒå‰æœç´¢æ ‘
     bool  isBST()
     {
-        Node* prev = nullptr; //ÆäÇ°Ò»½Úµã
+        Node* prev = nullptr; //å…¶å‰ä¸€èŠ‚ç‚¹
         return isBST(root_, prev);
     }
-    //Çóµ¹ÊıµÚk¸ö½Úµã 
-    int i = 1;//¼ÇÂ¼½ÚµãÎ»´Î
+    //æ±‚å€’æ•°ç¬¬kä¸ªèŠ‚ç‚¹ 
+    int i = 1;//è®°å½•èŠ‚ç‚¹ä½æ¬¡
     int getVal(int k)
     {
         Node* node = getVal(root_, k);
@@ -337,23 +337,23 @@ public:
             return node->data_;
     }
 private:
-    // ½Úµã¶¨Òå
+    // èŠ‚ç‚¹å®šä¹‰
     struct Node
     {
-        Node(T data = T()) // T() Áã¹¹Ôì
+        Node(T data = T()) // T() é›¶æ„é€ 
             : data_(data), lchild(nullptr), rchild(nullptr)
         {
         }
 
-        T data_;      // Êı¾İÓò
-        Node* lchild; // Ö¸Ïò×óº¢×Ó
-        Node* rchild; // Ö¸ÏòÓĞÓÒº¢×Ó
+        T data_;      // æ•°æ®åŸŸ
+        Node* lchild; // æŒ‡å‘å·¦å­©å­
+        Node* rchild; // æŒ‡å‘æœ‰å³å­©å­
     };
 
-    Node* root_; // Ö¸ÏòBSTÊ÷µÄ¸ù½Úµã
-    Comp comp_;  // ¶¨ÒåÒ»¸öº¯Êı¶ÔÏó
-private:         // Ë½ÓĞ·½·¨
-    // µİ¹éÇ°Ğò±éÀúµÄÊµÏÖ  VLR
+    Node* root_; // æŒ‡å‘BSTæ ‘çš„æ ¹èŠ‚ç‚¹
+    Comp comp_;  // å®šä¹‰ä¸€ä¸ªå‡½æ•°å¯¹è±¡
+private:         // ç§æœ‰æ–¹æ³•
+    // é€’å½’å‰åºéå†çš„å®ç°  VLR
     void preOrder(Node* node)
     {
         if (node != nullptr)
@@ -363,7 +363,7 @@ private:         // Ë½ÓĞ·½·¨
             preOrder(node->rchild);     // R
         }
     }
-    // µİ¹éÖĞĞò±éÀúµÄÊµÏÖ  LVR
+    // é€’å½’ä¸­åºéå†çš„å®ç°  LVR
     void inOrder(Node* node)
     {
         if (node != nullptr)
@@ -373,7 +373,7 @@ private:         // Ë½ÓĞ·½·¨
             inOrder(node->rchild);      // R
         }
     }
-    // µİ¹éºóĞò±éÀúµÄÊµÏÖ  LRV
+    // é€’å½’ååºéå†çš„å®ç°  LRV
     void postOrder(Node* node)
     {
         if (node != nullptr)
@@ -383,7 +383,7 @@ private:         // Ë½ÓĞ·½·¨
             cout << node->data_ << " "; // V
         }
     }
-    // µİ¹é²ãĞò±éÀúµÄÊµÏÖ
+    // é€’å½’å±‚åºéå†çš„å®ç°
     void levelOrder(Node* node, int i)
     {
         if (node == nullptr)
@@ -397,7 +397,7 @@ private:         // Ë½ÓĞ·½·¨
         levelOrder(node->lchild, i - 1);
         levelOrder(node->rchild, i - 1);
     }
-    // µİ¹éÊµÏÖÇó¶ş²æÊ÷²ãÊı ÇóÒÔnodeÎª¸ù½ÚµãµÄ×ÓÊ÷µÄ¸ß¶È²¢·µ»Ø¸ß¶ÈÖµ
+    // é€’å½’å®ç°æ±‚äºŒå‰æ ‘å±‚æ•° æ±‚ä»¥nodeä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘çš„é«˜åº¦å¹¶è¿”å›é«˜åº¦å€¼
     int high(Node* node)
     {
         if (node == nullptr)
@@ -407,7 +407,7 @@ private:         // Ë½ÓĞ·½·¨
 
         return left > right ? left + 1 : right + 1;
     }
-    // µİ¹éÇó¶ş²æÊ÷½Úµã¸öÊıµÄÊµÏÖ ÇóÒÔnodeÎª¸ù½ÚµãµÄÊ÷µÄ½Úµã×ÜÊı£¬²¢·µ»Ø
+    // é€’å½’æ±‚äºŒå‰æ ‘èŠ‚ç‚¹ä¸ªæ•°çš„å®ç° æ±‚ä»¥nodeä¸ºæ ¹èŠ‚ç‚¹çš„æ ‘çš„èŠ‚ç‚¹æ€»æ•°ï¼Œå¹¶è¿”å›
     int number(Node* node)
     {
         if (node == nullptr)
@@ -416,7 +416,7 @@ private:         // Ë½ÓĞ·½·¨
         int right = number(node->rchild); // R
         return left + right + 1;          // V
     }
-    // µİ¹é²åÈëÊµÏÖ
+    // é€’å½’æ’å…¥å®ç°
     Node* insert(Node* node, const T& val)
     {
         if (node == nullptr)
@@ -430,7 +430,7 @@ private:         // Ë½ÓĞ·½·¨
             node->lchild = insert(node->lchild, val);
         return node;
     }
-    // µİ¹é²éÑ¯ÊµÏÖ
+    // é€’å½’æŸ¥è¯¢å®ç°
     Node* query(Node* node, const T& val)
     {
         if (node->data_ == val)
@@ -441,49 +441,49 @@ private:         // Ë½ÓĞ·½·¨
             node->lchild = query(node->lchild, val);
         return nullptr;
     }
-    // µİ¹éÉ¾³ıÊµÏÖ
+    // é€’å½’åˆ é™¤å®ç°
     Node* remove(Node* node, const T& val)
     {
-        // ¿ÕÊ÷
+        // ç©ºæ ‘
         if (node == nullptr)
             return nullptr;
 
-        // ÕÒµ½´ıÉ¾½Úµã
+        // æ‰¾åˆ°å¾…åˆ èŠ‚ç‚¹
         if (node->data_ == val)
         {
-            // Çé¿ö3
+            // æƒ…å†µ3
             if (node->lchild != nullptr && node->rchild != nullptr)
             {
-                // ÕÒµ½Ç°Çı½Úµã
+                // æ‰¾åˆ°å‰é©±èŠ‚ç‚¹
                 Node* pre = node->lchild;
                 while (pre->rchild != nullptr)
                 {
                     pre = pre->rchild;
                 }
-                node->data_ = pre->data_; // ÓÃÇ°Çı½Úµã¸²¸Ç´ıÉ¾½Úµã
-                // Í¨¹ıµİ¹éÖ±½ÓÉ¾³ıÇ°Çı½Úµã
+                node->data_ = pre->data_; // ç”¨å‰é©±èŠ‚ç‚¹è¦†ç›–å¾…åˆ èŠ‚ç‚¹
+                // é€šè¿‡é€’å½’ç›´æ¥åˆ é™¤å‰é©±èŠ‚ç‚¹
                 node->lchild = remove(node->lchild, pre->data_);
             }
-            else // Çé¿ö1¡¢2
+            else // æƒ…å†µ1ã€2
             {
                 if (node->lchild != nullptr)
                 {
-                    // É¾³ı½ÚµãÒÔºó£¬°Ñ·Ç¿ÕµÄ×óº¢×Ó·µ»Ø£¬»ØËİÊ±¸üĞÂÆä¸¸½ÚµãµØÖ·Óò
+                    // åˆ é™¤èŠ‚ç‚¹ä»¥åï¼ŒæŠŠéç©ºçš„å·¦å­©å­è¿”å›ï¼Œå›æº¯æ—¶æ›´æ–°å…¶çˆ¶èŠ‚ç‚¹åœ°å€åŸŸ
                     Node* left = node->lchild;
                     delete node;
                     return left;
                 }
                 else if (node->rchild != nullptr)
                 {
-                    // É¾³ı½ÚµãÒÔºó£¬°Ñ·Ç¿ÕµÄÓÒº¢×Ó·µ»Ø£¬»ØËİÊ±¸üĞÂÆä¸¸½ÚµãµØÖ·Óò
+                    // åˆ é™¤èŠ‚ç‚¹ä»¥åï¼ŒæŠŠéç©ºçš„å³å­©å­è¿”å›ï¼Œå›æº¯æ—¶æ›´æ–°å…¶çˆ¶èŠ‚ç‚¹åœ°å€åŸŸ
                     Node* right = node->rchild;
                     delete node;
                     return right;
                 }
-                else // É¾³ıµÄÊÇÃ»ÓĞº¢×ÓµÄ½Úµã  Ò¶×Ó½Úµã
+                else // åˆ é™¤çš„æ˜¯æ²¡æœ‰å­©å­çš„èŠ‚ç‚¹  å¶å­èŠ‚ç‚¹
                 {
                     delete node;
-                    return nullptr; // »ØËİÊ±¸üĞÂÆä¸¸½ÚµãµØÖ·ÓòÎªnullptr
+                    return nullptr; // å›æº¯æ—¶æ›´æ–°å…¶çˆ¶èŠ‚ç‚¹åœ°å€åŸŸä¸ºnullptr
                 }
             }
         }
@@ -498,37 +498,37 @@ private:         // Ë½ÓĞ·½·¨
 
         return node;
     }
-    // ¶Ô¶ş²æÊ÷Çø¼ä½øĞĞËÑË÷ÊµÏÖ
+    // å¯¹äºŒå‰æ ‘åŒºé—´è¿›è¡Œæœç´¢å®ç°
     void findRange(vector<T>& v, Node* node, int l, int r)
     {
         if (node != nullptr)
         {
-            //1¡¢Ê¹ÓÃÖĞĞò±éÀúBSTÊ÷£¬µÃµ½ÓĞĞòÔªËØĞòÁĞ
+            //1ã€ä½¿ç”¨ä¸­åºéå†BSTæ ‘ï¼Œå¾—åˆ°æœ‰åºå…ƒç´ åºåˆ—
             findRange(v, node->lchild, l, r); // L
-            //Âú×ãÇø¼äÌõ¼ş¼ÓÈëÊı×é
+            //æ»¡è¶³åŒºé—´æ¡ä»¶åŠ å…¥æ•°ç»„
             if (node->data_ >= l && node->data_ <= r)
                 v.push_back(node->data_);     // V
             findRange(v, node->rchild, l, r); // R
         }
     }
-    //ÅĞ¶Ï¶ş²æÊ÷ÊÇ²»ÊÇ¶ş²æËÑË÷Ê÷ÊµÏÖ
+    //åˆ¤æ–­äºŒå‰æ ‘æ˜¯ä¸æ˜¯äºŒå‰æœç´¢æ ‘å®ç°
     bool isBST(Node* node, Node*& pre)
     {
-        if (node == nullptr)  //µİ¹éµ½¾¡Í·£¬ËµÃ÷Î´´¥·¢Ìõ¼ş£¬ÊÇBSTÊ÷£¬·µ»Øtrue
+        if (node == nullptr)  //é€’å½’åˆ°å°½å¤´ï¼Œè¯´æ˜æœªè§¦å‘æ¡ä»¶ï¼Œæ˜¯BSTæ ‘ï¼Œè¿”å›true
             return true;
-        //ÖĞĞò±éÀúÊ÷,¿ÉµÃµ½ÉıĞòĞòÁĞ£¬Èç¹ûÇ°Çı½Úµã´óÓÚµ±Ç°ÔªËØ£¬ËµÃ÷²»ÊÇBSTÊ÷
+        //ä¸­åºéå†æ ‘,å¯å¾—åˆ°å‡åºåºåˆ—ï¼Œå¦‚æœå‰é©±èŠ‚ç‚¹å¤§äºå½“å‰å…ƒç´ ï¼Œè¯´æ˜ä¸æ˜¯BSTæ ‘
 
-        //ÖĞĞò±éÀú
+        //ä¸­åºéå†
         if (!isBST(node->lchild, pre))  // L 
-            return false; // Èç¹ûµİ¹éº¯ÊıÄÚ·µ»Øfalse£¬Ôò²»ÊÇBSTÊ÷£¬Ö±½Ó·µ»Øfalse
+            return false; // å¦‚æœé€’å½’å‡½æ•°å†…è¿”å›falseï¼Œåˆ™ä¸æ˜¯BSTæ ‘ï¼Œç›´æ¥è¿”å›false
         if (pre != nullptr)  // V 
-            if (pre->data_ > node->data_)// Ö÷ÒªµÄÅĞ¶Ï
+            if (pre->data_ > node->data_)// ä¸»è¦çš„åˆ¤æ–­
                 return false;
-        pre = node;  //¸üĞÂÇ°Çı½Úµã
-        //µİ¹éº¯ÊıÖ±½Ó·µ»Ø£¬µİ¹é½á¹û
+        pre = node;  //æ›´æ–°å‰é©±èŠ‚ç‚¹
+        //é€’å½’å‡½æ•°ç›´æ¥è¿”å›ï¼Œé€’å½’ç»“æœ
         return isBST(node->rchild, pre);  // R
     }
-    //Çóµ¹ÊıµÚk¸ö½Úµã
+    //æ±‚å€’æ•°ç¬¬kä¸ªèŠ‚ç‚¹
     Node* getVal(Node* node, int k)
     {
         if (node == nullptr)
@@ -542,8 +542,8 @@ private:         // Ë½ÓĞ·½·¨
     }
 };
 
-//²âÊÔº¯Êı
-void test1()   // ²âÊÔÊÇ·ñÊÇBSTÊ÷
+//æµ‹è¯•å‡½æ•°
+void test1()   // æµ‹è¯•æ˜¯å¦æ˜¯BSTæ ‘
 {
     using Node = BSTree<int>::Node;
     BSTree<int> bst;
@@ -571,7 +571,7 @@ int main()
     bst.inOrder();
     cout << bst.getVal(4) << endl;
     //cout << bst.isBST();
-    // ²âÊÔ²åÈë¡¢É¾³ıºÍ²éÕÒ
+    // æµ‹è¯•æ’å…¥ã€åˆ é™¤å’ŒæŸ¥æ‰¾
     /* bst.n_insert(12);
     cout << bst.n_query(12) << endl;
 
@@ -581,7 +581,7 @@ int main()
 
     cout << bst.n_query(12) << endl;*/
 
-    // ²âÊÔµİ¹é°æÉ¾³ı¡¢²éÑ¯
+    // æµ‹è¯•é€’å½’ç‰ˆåˆ é™¤ã€æŸ¥è¯¢
     /*bst.insert(12);
     bst.inOrder();
     bst.remove(12);
@@ -589,7 +589,7 @@ int main()
     bst.remove(58);
     bst.inOrder();*/
 
-    // ²âÊÔ±éÀú
+    // æµ‹è¯•éå†
     /*bst.preOrder();
     bst.n_preOrder();
     bst.inOrder();
@@ -597,16 +597,16 @@ int main()
     bst.postOrder();
     bst.n_postOrder();
 
-    cout << "Ê÷¸ß: " << bst.high() << "\n"
-         << "½Úµã¸öÊı: " << bst.number() << endl;
+    cout << "æ ‘é«˜: " << bst.high() << "\n"
+         << "èŠ‚ç‚¹ä¸ªæ•°: " << bst.number() << endl;
     bst.levelOrder();
     bst.n_levelOrder();*/
 
-    //²âÊÔËÑË÷Çø¼äÔªËØ
+    //æµ‹è¯•æœç´¢åŒºé—´å…ƒç´ 
     /*vector<int> v;
     bst.findRange(v, 10, 50);
     bst.inOrder();
-    printf("BSTÖĞ10~50µÄÔªËØ: ");
+    printf("BSTä¸­10~50çš„å…ƒç´ : ");
     for (auto i : v)
         cout << i << " ";
     cout << endl;*/

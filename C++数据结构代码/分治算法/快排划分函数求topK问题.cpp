@@ -4,50 +4,50 @@
 #include <algorithm>
 using namespace std;
 
-// ¿ìÅÅ·Ö¸îº¯Êı
+// å¿«æ’åˆ†å‰²å‡½æ•°
 int Partation(vector<int> &vec, int l, int r)
 {
-    // ÓÅ»¯·½·¨2£ºÈıÊıÈ¡ÖĞ·¨£¬Ö¼ÔÚÌôÑ¡ºÏÊÊµÄ»ù×¼Êı£¬·ÀÖ¹¿ìÅÅÍË»¯³ÉÃ°ÅİÅÅĞò¡£¼´ÔÚleft¡¢mid¡¢rightÖĞÈ¡ÖĞ¼äÖµ£¬×÷Îª»ù×¼Öµ¡£
-    int val = vec[l]; // ¼ÇÂ¼»ù×¼Êı
-    // Ò»´Î¿ìÅÅ´¦Àí
+    // ä¼˜åŒ–æ–¹æ³•2ï¼šä¸‰æ•°å–ä¸­æ³•ï¼Œæ—¨åœ¨æŒ‘é€‰åˆé€‚çš„åŸºå‡†æ•°ï¼Œé˜²æ­¢å¿«æ’é€€åŒ–æˆå†’æ³¡æ’åºã€‚å³åœ¨leftã€midã€rightä¸­å–ä¸­é—´å€¼ï¼Œä½œä¸ºåŸºå‡†å€¼ã€‚
+    int val = vec[l]; // è®°å½•åŸºå‡†æ•°
+    // ä¸€æ¬¡å¿«æ’å¤„ç†
     while (l < r)
     {
-        // ´Ór¿ªÊ¼ÍùÇ°ÕÒµÚÒ»¸ö < valµÄÊı×Ö
+        // ä»rå¼€å§‹å¾€å‰æ‰¾ç¬¬ä¸€ä¸ª < valçš„æ•°å­—
         while (l < r && vec[r] > val)
             r--;
-        // ·Åµ½lµÄµØ·½£¬l++
+        // æ”¾åˆ°lçš„åœ°æ–¹ï¼Œl++
         if (l < r)
         {
             vec[l] = vec[r];
             l++;
         }
-        // ´Ól¿ªÊ¼ÍùºóÕÒµÚÒ»¸ö > valµÄÊı×Ö
+        // ä»lå¼€å§‹å¾€åæ‰¾ç¬¬ä¸€ä¸ª > valçš„æ•°å­—
         while (l < r && vec[l] < val)
             l++;
-        // ·Åµ½rµÄµØ·½£¬r--
+        // æ”¾åˆ°rçš„åœ°æ–¹ï¼Œr--
         if (l < r)
         {
             vec[r] = vec[l];
             r--;
         }
     }
-    // l == rµÄÎ»ÖÃ£¬¾ÍÊÇ·Å»ù×¼ÊıµÄÎ»ÖÃ
+    // l == rçš„ä½ç½®ï¼Œå°±æ˜¯æ”¾åŸºå‡†æ•°çš„ä½ç½®
     vec[l] = val;
     return l;
 }
-// ÕÒµÚk´óµÄ£¬¼´vec.size()-kµÄÏÂ±ê
+// æ‰¾ç¬¬kå¤§çš„ï¼Œå³vec.size()-kçš„ä¸‹æ ‡
 int max_selectTopK(vector<int> &vec, int i, int j, int k)
 {
-    int pos = Partation(vec, i, j); // pos±íÊ¾»ù×¼ÊıÎ»ÖÃ
-    if (pos == vec.size() - k)      // ÕÒµ½ÁË »ù×¼ÊıµÄÎ»ÖÃºÍtopKµÄkÖµÏàµÈÁË
+    int pos = Partation(vec, i, j); // posè¡¨ç¤ºåŸºå‡†æ•°ä½ç½®
+    if (pos == vec.size() - k)      // æ‰¾åˆ°äº† åŸºå‡†æ•°çš„ä½ç½®å’ŒtopKçš„kå€¼ç›¸ç­‰äº†
     {
         return vec[pos];
     }
-    else if (pos < vec.size() - k) // topKÓ¦ÔÚ»ù×¼ÊıÓÒ±ß
+    else if (pos < vec.size() - k) // topKåº”åœ¨åŸºå‡†æ•°å³è¾¹
     {
         return max_selectTopK(vec, pos + 1, j, k);
     }
-    else // topKÓ¦ÔÚ»ù×¼Êı×ó±ß
+    else // topKåº”åœ¨åŸºå‡†æ•°å·¦è¾¹
     {
         return max_selectTopK(vec, i, pos - 1, k);
     }
@@ -59,11 +59,11 @@ int main()
     for (int i = 0; i != 20; ++i)
         v.push_back(rand() % 100);
 
-    // ÇóµÚtop 10´óµÄÔªËØ
+    // æ±‚ç¬¬top 10å¤§çš„å…ƒç´ 
     int val = max_selectTopK(v, 0, v.size() - 1, 10);
     cout << "val: " << val << endl;
 
-    // ´òÓ¡ÅÅºÃĞòÁĞ
+    // æ‰“å°æ’å¥½åºåˆ—
     sort(v.begin(), v.end());
     for (auto i : v)
         cout << i << " ";

@@ -1,16 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
+#define MaxSize 10 // å®šä¹‰æœ€å¤§é•¿åº¦
 
-#define MaxSize 10 // ¶¨Òå×î´ó³¤¶È
-
-// ¶¨ÒåÒ»¸ö¾²Ì¬ÏßĞÔ±í
+// å®šä¹‰ä¸€ä¸ªé™æ€çº¿æ€§è¡¨
 typedef struct
 {
-    int data[MaxSize]; // ÓÃ¾²Ì¬µÄ¡°Êı×é¡±´æ·ÅÊı¾İÔªËØ
-    int length;        // Ë³Ğò±íµÄµ±Ç°³¤¶È
-} SqList;              // Ë³Ğò±íµÄÀàĞÍ¶¨Òå
+    int data[MaxSize]; // ç”¨é™æ€çš„â€œæ•°ç»„â€å­˜æ”¾æ•°æ®å…ƒç´ 
+    int length;        // é¡ºåºè¡¨çš„å½“å‰é•¿åº¦
+} SqList;              // é¡ºåºè¡¨çš„ç±»å‹å®šä¹‰
 
-// »ù±¾²Ù×÷¡ª¡ª³õÊ¼»¯Ò»¸öË³Ğò±í
+// åŸºæœ¬æ“ä½œâ€”â€”åˆå§‹åŒ–ä¸€ä¸ªé¡ºåºè¡¨
 void InitList(SqList *L)
 {
     for (int i = 0; i != MaxSize; ++i)
@@ -22,8 +19,8 @@ void InitList(SqList *L)
 
 int main()
 {
-    SqList L;     // ÉùÃ÷Ò»¸öË³Ğò±í
-    InitList(&L); // ³õÊ¼»¯Ë³Ğò±í
+    SqList L;     // å£°æ˜ä¸€ä¸ªé¡ºåºè¡¨
+    InitList(&L); // åˆå§‹åŒ–é¡ºåºè¡¨
 
     return 0;
 }

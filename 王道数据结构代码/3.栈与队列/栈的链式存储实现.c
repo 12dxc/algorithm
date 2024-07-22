@@ -1,102 +1,102 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#define MaxSize 10   // ¾²Ì¬Êı×é×î´ó³¤¶È
-#define ElemType int // Õ»µÄÔªËØÀàĞÍ
+#define MaxSize 10   // é™æ€æ•°ç»„æœ€å¤§é•¿åº¦
+#define ElemType int // æ ˆçš„å…ƒç´ ç±»å‹
 
-// Á´Õ»½á¹¹
+// é“¾æ ˆç»“æ„
 typedef struct StackNode
 {
     ElemType data;
     struct StackNode *next;
 } StackNode, *LinkStackPtr;
-// Á´±í½á¹¹
+// é“¾è¡¨ç»“æ„
 typedef struct
 {
     LinkStackPtr top;
-    int count; // Á´±í³¤¶È
+    int count; // é“¾è¡¨é•¿åº¦
 } LinkStack;
 
-// ³õÊ¼»¯Ò»¸ö¿ÕµÄµ¥Á´±íÕ»£¨´øÍ·½áµã£©
+// åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„å•é“¾è¡¨æ ˆï¼ˆå¸¦å¤´ç»“ç‚¹ï¼‰
 bool InitStack(LinkStack *s)
 {
-    s->top = (LinkStackPtr)malloc(sizeof(StackNode)); // ·ÖÅäÒ»¸öÍ·½áµã
+    s->top = (LinkStackPtr)malloc(sizeof(StackNode)); // åˆ†é…ä¸€ä¸ªå¤´ç»“ç‚¹
     if (!s->top)
-        return false; // ÄÚ´æ²»×ã£¬·ÖÅäÊ§°Ü
-    s->top = NULL;    // Í·½áµãnextÖ¸ÕëÖÃ¿Õ
-    s->count = 0;     // Á´³¤ÖÃ0
+        return false; // å†…å­˜ä¸è¶³ï¼Œåˆ†é…å¤±è´¥
+    s->top = NULL;    // å¤´ç»“ç‚¹nextæŒ‡é’ˆç½®ç©º
+    s->count = 0;     // é“¾é•¿ç½®0
     return true;
 }
-// ÅĞ¶ÏÊÇ·ñÎª¿ÕÕ»
+// åˆ¤æ–­æ˜¯å¦ä¸ºç©ºæ ˆ
 bool StackEmpty(LinkStack s)
 {
-    if (s.count == 0) // Õ»Îª¿Õ
+    if (s.count == 0) // æ ˆä¸ºç©º
         return true;
     else
         return false;
 }
-// Ïú»ÙÕ»
+// é”€æ¯æ ˆ
 void ClearStack(LinkStack *s)
 {
     LinkStackPtr p, q;
     p = s->top;
     while (p)
     {
-        q = p;       // ±£´æµ±Ç°Í·½áµã
-        p = p->next; // µü´úÍ·½áµãÖ¸Õë;
-        free(q);     // ÊÍ·Åµ±Ç°Í·½áµã
+        q = p;       // ä¿å­˜å½“å‰å¤´ç»“ç‚¹
+        p = p->next; // è¿­ä»£å¤´ç»“ç‚¹æŒ‡é’ˆ;
+        free(q);     // é‡Šæ”¾å½“å‰å¤´ç»“ç‚¹
     }
     s->count = 0;
 }
-// ½øÕ»
+// è¿›æ ˆ
 bool Push(LinkStack *s, ElemType e)
 {
     LinkStackPtr newTop = (LinkStackPtr)malloc(sizeof(StackNode));
-    newTop->data = e;      // ĞÂ½áµã¸³Öµ
-    newTop->next = s->top; // ĞÂ½áµãµÄÏÂ¸ö½áµãÖ¸ÏòÍ·½áµã
-    s->top = newTop;       // Í·½áµãÖ¸Ïò£¨¸ÄÎª£©ĞÂ½áµã
-    s->count++;            // Á´³¤+1
+    newTop->data = e;      // æ–°ç»“ç‚¹èµ‹å€¼
+    newTop->next = s->top; // æ–°ç»“ç‚¹çš„ä¸‹ä¸ªç»“ç‚¹æŒ‡å‘å¤´ç»“ç‚¹
+    s->top = newTop;       // å¤´ç»“ç‚¹æŒ‡å‘ï¼ˆæ”¹ä¸ºï¼‰æ–°ç»“ç‚¹
+    s->count++;            // é“¾é•¿+1
     return true;
 }
-// ³öÕ»
+// å‡ºæ ˆ
 ElemType Pop(LinkStack *s)
 {
-    if (s->count == 0) // Õ»Îª¿Õ
+    if (s->count == 0) // æ ˆä¸ºç©º
         return -1;
     int x = s->top->data;
-    LinkStackPtr p = s->top; // ´´½¨Ò»¸öÖ¸ÕëÖ¸ÏòÒªÏú»ÙµÄ½áµã,¼´Í·½áµã
-    s->top = s->top->next;   // Ö¸ÕëÏÂÒÆÒ»Î»
-    free(p);                 // Ïú»Ù½áµã
-    s->count--;              // Á´³¤-1
+    LinkStackPtr p = s->top; // åˆ›å»ºä¸€ä¸ªæŒ‡é’ˆæŒ‡å‘è¦é”€æ¯çš„ç»“ç‚¹,å³å¤´ç»“ç‚¹
+    s->top = s->top->next;   // æŒ‡é’ˆä¸‹ç§»ä¸€ä½
+    free(p);                 // é”€æ¯ç»“ç‚¹
+    s->count--;              // é“¾é•¿-1
     return x;
 }
-// ²é¿´Õ»¶¥ÔªËØ
+// æŸ¥çœ‹æ ˆé¡¶å…ƒç´ 
 ElemType GetTop(LinkStack s)
 {
-    if (s.top == 0) // Õ»Îª¿Õ
+    if (s.top == 0) // æ ˆä¸ºç©º
         return -1;
     return s.top->data;
 }
 
 int main()
 {
-    LinkStack s;   // ´´½¨Õ»
-    InitStack(&s); // ³õÊ¼»¯Õ»
-    // Ñ¹Õ»£¬0~9ÌîÂúÕ»
+    LinkStack s;   // åˆ›å»ºæ ˆ
+    InitStack(&s); // åˆå§‹åŒ–æ ˆ
+    // å‹æ ˆï¼Œ0~9å¡«æ»¡æ ˆ
     for (int i = 0; i < MaxSize; i++)
     {
         Push(&s, i);
     }
-    // ²é¿´Õ»¶¥
+    // æŸ¥çœ‹æ ˆé¡¶
     printf("%d\n", GetTop(s)); // 9
-    // ³öÕ»
+    // å‡ºæ ˆ
     Pop(&s);
     printf("%d\n", GetTop(s)); // 8
 
-    printf("Á´³¤: %d\n", s.count);
+    printf("é“¾é•¿: %d\n", s.count);
 
     if (StackEmpty(s))
-        printf("Õ»Îª¿Õ£¡");
+        printf("æ ˆä¸ºç©ºï¼");
 
     system("pause");
     return 0;

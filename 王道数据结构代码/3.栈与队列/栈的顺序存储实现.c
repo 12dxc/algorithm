@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#define MaxSize 10   // ¾²Ì¬Êı×é×î´ó³¤¶È
-#define ElemType int // Õ»µÄÔªËØÀàĞÍ
+#define MaxSize 10   // é™æ€æ•°ç»„æœ€å¤§é•¿åº¦
+#define ElemType int // æ ˆçš„å…ƒç´ ç±»å‹
 
 typedef struct
 {
     ElemType data[MaxSize];
-    int top; // ÓÃÓÚÕ»¶¥Ö¸Õë
+    int top; // ç”¨äºæ ˆé¡¶æŒ‡é’ˆ
 } Stack;
-// ³õÊ¼»¯Õ»
+// åˆå§‹åŒ–æ ˆ
 void InitStack(Stack *s)
 {
     s->top = -1;
@@ -18,41 +17,41 @@ void InitStack(Stack *s)
         s->data[i] = 0;
     }
 }
-// Ïú»ÙÕ»
+// é”€æ¯æ ˆ
 void DestroyStack(Stack *s)
 {
     s->top = -1;
 }
-// ½øÕ»
+// è¿›æ ˆ
 bool Push(Stack *s, ElemType x)
 {
-    if (s->top == MaxSize - 1) // Õ»Âú
+    if (s->top == MaxSize - 1) // æ ˆæ»¡
         return false;
     ++s->top;
     s->data[s->top] = x;
     return true;
 }
-// ³öÕ»
+// å‡ºæ ˆ
 bool Pop(Stack *s)
 {
-    if (s->top == -1) // Õ»Îª¿Õ
+    if (s->top == -1) // æ ˆä¸ºç©º
         return false;
-    s->data[s->top] = 0; // Õ»¶¥ÔªËØÏÈ³öÕ»
-    s->top--;            // Ö¸ÕëÔÙ¼õ1
+    s->data[s->top] = 0; // æ ˆé¡¶å…ƒç´ å…ˆå‡ºæ ˆ
+    s->top--;            // æŒ‡é’ˆå†å‡1
     return true;
 }
-// ²é¿´Õ»¶¥ÔªËØ
+// æŸ¥çœ‹æ ˆé¡¶å…ƒç´ 
 ElemType GetTop(Stack s)
 {
-    if (s.top == -1) // Õ»Îª¿Õ
+    if (s.top == -1) // æ ˆä¸ºç©º
         return -1;
     return s.data[s.top];
 }
 
-// ÅĞ¶ÏÊÇ·ñÎª¿ÕÕ»
+// åˆ¤æ–­æ˜¯å¦ä¸ºç©ºæ ˆ
 bool StackEmpty(Stack s)
 {
-    if (s.top == -1) // Õ»Îª¿Õ
+    if (s.top == -1) // æ ˆä¸ºç©º
         return true;
     else
         return false;
@@ -60,21 +59,21 @@ bool StackEmpty(Stack s)
 
 int main()
 {
-    Stack s;       // ´´½¨Õ»
-    InitStack(&s); // ³õÊ¼»¯Õ»
-    // Ñ¹Õ»£¬0~9ÌîÂúÕ»
+    Stack s;       // åˆ›å»ºæ ˆ
+    InitStack(&s); // åˆå§‹åŒ–æ ˆ
+    // å‹æ ˆï¼Œ0~9å¡«æ»¡æ ˆ
     for (int i = 0; i < MaxSize; i++)
     {
         Push(&s, i);
     }
-    // ²é¿´Õ»¶¥
+    // æŸ¥çœ‹æ ˆé¡¶
     printf("%d\n", GetTop(s)); // 9
-    // ³öÕ»
+    // å‡ºæ ˆ
     Pop(&s);
     printf("%d\n", GetTop(s)); // 8
 
     if (StackEmpty(s))
-        printf("Õ»Îª¿Õ£¡");
+        printf("æ ˆä¸ºç©ºï¼");
 
     return 0;
 }

@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #define MaxVertexNum 100     // 顶点的最大数目
 #define INFINITY 最大的int值 // 宏定义常量无穷
 typedef char VertexType;     // 顶点的数据类型
@@ -38,7 +35,6 @@ typedef struct
 
 int main()
 {
-    system("chcp 65001");
 
     return 0;
 }

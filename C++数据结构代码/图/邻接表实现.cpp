@@ -7,16 +7,16 @@
 #include <sstream>
 using namespace std;
 
-// ÊµÏÖÒ»¸öÓĞÏòÍ¼µÄÁÚ½Ó±í½á¹¹
+// å®ç°ä¸€ä¸ªæœ‰å‘å›¾çš„é‚»æ¥è¡¨ç»“æ„
 class Digraph
 {
 public:
-    // ´ÓÅäÖÃÎÄ¼ş¶ÁÈë¶¥µãºÍ±ßµÄĞÅÏ¢£¬Éú³ÉÁÚ½Ó±í
+    // ä»é…ç½®æ–‡ä»¶è¯»å…¥é¡¶ç‚¹å’Œè¾¹çš„ä¿¡æ¯ï¼Œç”Ÿæˆé‚»æ¥è¡¨
     void readFile(string filePath)
     {
         ifstream file(filePath);
 
-        // Õ¼ÓÃµÚ0ºÅÎ»ÖÃ
+        // å ç”¨ç¬¬0å·ä½ç½®
         vertics.emplace_back("");
 
         if (file.is_open())
@@ -25,20 +25,20 @@ public:
             string line;
             while (getline(file, line))
             {
-                // Èç¹ûÊÇ×ÖÄ¸ĞĞ£¬Ôò¼ÇÂ¼µ±Ç°¶¥µã
+                // å¦‚æœæ˜¯å­—æ¯è¡Œï¼Œåˆ™è®°å½•å½“å‰é¡¶ç‚¹
                 if (isalpha(line[0]))
                 {
                     currentVertex = line[0];
                     vertics.emplace_back(currentVertex);
                 }
                 else
-                { // ½âÎö¶ººÅ·Ö¸ôµÄÊı×ÖÁĞ±í
+                { // è§£æé€—å·åˆ†éš”çš„æ•°å­—åˆ—è¡¨
                     istringstream iss(line);
                     string number;
                     while (getline(iss, number, ','))
                     {
-                        if (stoi(number) > 0) // Ã»ÓĞÈë¶ÈµÄ¾Í²»²åÈëÁÚ½ÓÁ´±í
-                            // ½«Êı×ÖÌí¼Óµ½µ±Ç°¶¥µãµÄÁÚ½ÓÁ´±íÖĞ
+                        if (stoi(number) > 0) // æ²¡æœ‰å…¥åº¦çš„å°±ä¸æ’å…¥é‚»æ¥é“¾è¡¨
+                            // å°†æ•°å­—æ·»åŠ åˆ°å½“å‰é¡¶ç‚¹çš„é‚»æ¥é“¾è¡¨ä¸­
                             vertics.back().adjList_.emplace_back(stoi(number));
                     }
                 }
@@ -47,7 +47,7 @@ public:
         }
     }
 
-    // Êä³öÁÚ½Ó±íĞÅÏ¢
+    // è¾“å‡ºé‚»æ¥è¡¨ä¿¡æ¯
     void show() const
     {
         for (int i = 1; i < vertics.size(); ++i)
@@ -62,14 +62,14 @@ public:
         cout << endl;
     }
 
-    // Í¼µÄÉî¶ÈÓÅÏÈ±éÀú
+    // å›¾çš„æ·±åº¦ä¼˜å…ˆéå†
     void dfs()
     {
-        vector<bool> visited(vertics.size(), false); // ¼ÇÂ¼¶¥µãÊÇ·ñ±»±éÀú¹ı
+        vector<bool> visited(vertics.size(), false); // è®°å½•é¡¶ç‚¹æ˜¯å¦è¢«éå†è¿‡
         dfs(1, visited);
         cout << endl;
     }
-    // Í¼µÄ¹ã¶ÈÓÅÏÈ±éÀú
+    // å›¾çš„å¹¿åº¦ä¼˜å…ˆéå†
     void bfs()
     {
         vector<bool> visited(vertics.size(), false);
@@ -84,10 +84,10 @@ public:
             que.pop();
 
             cout << vertics[cur_no].data_ << " ";
-            // ±éÀúµ±Ç°¶¥µãµÄÁÚ½ÓÁ´±í
+            // éå†å½“å‰é¡¶ç‚¹çš„é‚»æ¥é“¾è¡¨
             for (auto no : vertics[cur_no].adjList_)
             {
-                if (!visited[no]) // ÅĞ¶ÏÊÇ·ñ±éÀú¹ı
+                if (!visited[no]) // åˆ¤æ–­æ˜¯å¦éå†è¿‡
                 {
                     que.push(no);
                     visited[no] = true;
@@ -96,7 +96,7 @@ public:
         }
         cout << endl;
     }
-    // Çó²»´øÈ¨ÖµµÄ×î¶ÌÂ·¾¶ÎÊÌâ - ¹ã¶ÈÓÅÏÈ±éÀú
+    // æ±‚ä¸å¸¦æƒå€¼çš„æœ€çŸ­è·¯å¾„é—®é¢˜ - å¹¿åº¦ä¼˜å…ˆéå†
     void shortPath(int start, int end)
     {
         vector<bool> visited(vertics.size(), false);
@@ -104,7 +104,7 @@ public:
 
         que.push(start);
         visited[start] = true;
-        // ¼ÇÂ¼¶¥µãÔÚ±éÀú¹ı³ÌÖĞµÄÇ°ºó±éÀú¹ØÏµ
+        // è®°å½•é¡¶ç‚¹åœ¨éå†è¿‡ç¨‹ä¸­çš„å‰åéå†å…³ç³»
         vector<int> path(vertics.size(), 0);
 
         while (!que.empty())
@@ -114,14 +114,14 @@ public:
                 break;
             que.pop();
 
-            // ±éÀúµ±Ç°¶¥µãµÄÁÚ½ÓÁ´±í
+            // éå†å½“å‰é¡¶ç‚¹çš„é‚»æ¥é“¾è¡¨
             for (auto no : vertics[cur_no].adjList_)
             {
-                if (!visited[no]) // ÅĞ¶ÏÊÇ·ñ±éÀú¹ı
+                if (!visited[no]) // åˆ¤æ–­æ˜¯å¦éå†è¿‡
                 {
                     que.push(no);
                     visited[no] = true;
-                    // µ±Ç°½Úµã´¦£¬¼ÇÂ¼ÊÇ´ÓÄÄÒ»¸ö½Úµã¹ıÀ´µÄ
+                    // å½“å‰èŠ‚ç‚¹å¤„ï¼Œè®°å½•æ˜¯ä»å“ªä¸€ä¸ªèŠ‚ç‚¹è¿‡æ¥çš„
                     path[no] = cur_no;
                 }
             }
@@ -129,26 +129,26 @@ public:
 
         if (!que.empty())
         {
-            // ´æÔÚÒ»Ìõ×î¶ÌÂ·¾¶£¬ÔõÃ´Êä³ö£¿
+            // å­˜åœ¨ä¸€æ¡æœ€çŸ­è·¯å¾„ï¼Œæ€ä¹ˆè¾“å‡ºï¼Ÿ
             showPath(end, path);
         }
         else
         {
-            cout << "²»´æÔÚÓĞĞ§µÄ×î¶ÌÂ·¾¶!" << endl;
+            cout << "ä¸å­˜åœ¨æœ‰æ•ˆçš„æœ€çŸ­è·¯å¾„!" << endl;
         }
         cout << endl;
     }
 
 private:
-    // Éî¶ÈÓÅÏÈ±éÀúµÄµİ¹é½Ó¿Ú
+    // æ·±åº¦ä¼˜å…ˆéå†çš„é€’å½’æ¥å£
     void dfs(int start, vector<bool> &visited)
     {
         if (visited[start] == true)
-            return; // ÊÇÒÑ¾­±éÀú¹ıµÄ½Úµã
+            return; // æ˜¯å·²ç»éå†è¿‡çš„èŠ‚ç‚¹
 
         cout << vertics[start].data_ << " ";
         visited[start] = true;
-        // µİ¹é±éÀúÏÂÒ»²ã½Úµã
+        // é€’å½’éå†ä¸‹ä¸€å±‚èŠ‚ç‚¹
         for (auto no : vertics[start].adjList_)
         {
             dfs(no, visited);
@@ -165,16 +165,16 @@ private:
     }
 
 private:
-    // ¶¥µãÀàĞÍ
+    // é¡¶ç‚¹ç±»å‹
     struct Vertic
     {
         Vertic(string data) : data_(data) {}
 
-        string data_;       // ´æ´¢¶¥µãµÄĞÅÏ¢
-        list<int> adjList_; // ÁÚ½ÓÁ´±í½á¹¹
+        string data_;       // å­˜å‚¨é¡¶ç‚¹çš„ä¿¡æ¯
+        list<int> adjList_; // é‚»æ¥é“¾è¡¨ç»“æ„
     };
 
-    vector<Vertic> vertics; // ÁÚ½Ó±í½á¹¹
+    vector<Vertic> vertics; // é‚»æ¥è¡¨ç»“æ„
 };
 
 int main()
@@ -182,11 +182,11 @@ int main()
     Digraph graph;
     graph.readFile("data.txt");
     graph.show();
-    cout << "Éî¶ÈÓÅÏÈ±éÀú:" << endl;
+    cout << "æ·±åº¦ä¼˜å…ˆéå†:" << endl;
     graph.dfs();
-    cout << "¹ã¶ÈÓÅÏÈ±éÀú:" << endl;
+    cout << "å¹¿åº¦ä¼˜å…ˆéå†:" << endl;
     graph.bfs();
-    cout << "×î¶ÌÂ·¾¶:" << endl;
+    cout << "æœ€çŸ­è·¯å¾„:" << endl;
     graph.shortPath(1, 8);
 
     return 0;

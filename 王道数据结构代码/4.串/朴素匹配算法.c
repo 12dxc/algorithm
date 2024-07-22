@@ -1,7 +1,8 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
+
 
 #define MAXLEN 255 // 字符串最大长度
 
@@ -124,6 +125,7 @@ int Index(SString S, SString T)
         else
             return i; // 返回子串在主串中
     }
+    return -1;
 }
 // 朴素模式匹配算法，用数组下标实现的定位操作
 int Index2(SString S, SString T)
@@ -149,7 +151,6 @@ int Index2(SString S, SString T)
 
 int main()
 {
-    system("chcp 65001");
 
     SString S1;
     SString S2;

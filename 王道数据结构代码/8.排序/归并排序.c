@@ -1,6 +1,7 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+
 
 void Merge(int A[], int low, int mid, int high);
 const int n = 100;
@@ -21,7 +22,7 @@ void Merge(int A[], int low, int mid, int high)
 {
     int i, j, k;
     for (k = low; k <= high; k++)
-        B[k] <= A[k]; // 将A数组的元素复制到B中
+        B[k] = A[k]; // 将A数组的元素复制到B中
     for (i = low, j = mid + 1, k = i; i <= mid && j <= high; k++)
     {
         if (B[i] <= B[j])

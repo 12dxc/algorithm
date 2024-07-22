@@ -1,7 +1,8 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
 #include "LinkQueue.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 
 // 设置二叉树元素类型
 #define ElemType int
@@ -19,7 +20,7 @@ ThreadNode *pre = NULL; // 指向当前访问结点的前驱
 // 访问结点q
 void visit(ThreadNode *q)
 {
-    if (q->lchild = NULL)
+    if (q->lchild == NULL)
     { // 左子树为空，建立前驱线索
         q->lchild = pre;
         q->ltag = 1;
@@ -57,7 +58,6 @@ void CreateInThread(ThreadTree T)
 
 int main()
 {
-    system("chcp 65001");
 
     return 0;
 }

@@ -2,81 +2,81 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define ElemType int // ¶ÓÁĞµÄÔªËØÀàĞÍ
+#define ElemType int // é˜Ÿåˆ—çš„å…ƒç´ ç±»å‹
 
-// Á´Ê½¶ÓÁĞ½áµã
+// é“¾å¼é˜Ÿåˆ—ç»“ç‚¹
 typedef struct LinkNode
 {
-    ElemType data; // ÓÃ¾²Ì¬Êı×é´æ·Å¶ÓÁĞÔªËØ
+    ElemType data; // ç”¨é™æ€æ•°ç»„å­˜æ”¾é˜Ÿåˆ—å…ƒç´ 
     struct LinkNode *next;
 } LinkNode;
-// Á´Ê½¶ÓÁĞ
+// é“¾å¼é˜Ÿåˆ—
 typedef struct
 {
-    LinkNode *front, *end; // ¶ÓÁĞµÄ¶ÓÍ·Ö¸ÕëºÍ¶ÓÎ²Ö¸Õë£¨frontÖ¸Ïò¿ÕÍ·½áµã£©
-    int len;               // ¶ÓÁĞ³¤¶È
+    LinkNode *front, *end; // é˜Ÿåˆ—çš„é˜Ÿå¤´æŒ‡é’ˆå’Œé˜Ÿå°¾æŒ‡é’ˆï¼ˆfrontæŒ‡å‘ç©ºå¤´ç»“ç‚¹ï¼‰
+    int len;               // é˜Ÿåˆ—é•¿åº¦
 } LinkQueue;
 
-// ³õÊ¼»¯¶ÓÁĞ£¨´øÍ·½áµã£©
-bool InitQueue(LinkQueue *Q)
+// åˆå§‹åŒ–é˜Ÿåˆ—ï¼ˆå¸¦å¤´ç»“ç‚¹ï¼‰
+void InitQueue(LinkQueue *Q)
 {
-    // ³õÊ¼»¯front¡¢end¶¼Ö¸ÏòÍ·½áµã
+    // åˆå§‹åŒ–frontã€endéƒ½æŒ‡å‘å¤´ç»“ç‚¹
     Q->front = Q->end = (LinkNode *)malloc(sizeof(LinkNode));
     Q->front->next = NULL;
     Q->len = 0;
 }
-// ³õÊ¼»¯¶ÓÁĞ£¨²»´øÍ·½áµã£©
+// åˆå§‹åŒ–é˜Ÿåˆ—ï¼ˆä¸å¸¦å¤´ç»“ç‚¹ï¼‰
 // bool InitQueue(LinkQueue *Q)
 // {
-//     // ³õÊ¼»¯front¡¢end¶¼Ö¸ÏòNULL
+//     // åˆå§‹åŒ–frontã€endéƒ½æŒ‡å‘NULL
 //     Q->front = NULL;
 //     Q->end = NULL;
 // }
 
-// ÅĞ¶Ï¶ÓÁĞÊÇ·ñÎª¿Õ
+// åˆ¤æ–­é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º
 bool IsEmpty(LinkQueue Q)
 {
-    // ¶ÓÍ·ºÍ¶ÓÎ²Ö¸ÏòÍ¬Ò»¸öÔªËØËµÃ÷¶Ó¿Õ
-    if (Q.front = Q.end)
+    // é˜Ÿå¤´å’Œé˜Ÿå°¾æŒ‡å‘åŒä¸€ä¸ªå…ƒç´ è¯´æ˜é˜Ÿç©º
+    if (Q.front == Q.end)
         return true;
     else
         return false;
 }
-// Èë¶Ó
+// å…¥é˜Ÿ
 void EnQueue(LinkQueue *Q, ElemType x)
 {
     LinkNode *s = (LinkNode *)malloc(sizeof(LinkQueue));
     s->data = x;
-    s->next = NULL;   // ĞÂ¼ÓÈëµÄ½áµã»á½ÓÔÚÎ²²¿£¬ËùÒÔnextÖ¸ÕëÒªÖ¸Ïò¿Õ
-    Q->end->next = s; // ĞÂ½áµã²åÈëµ½endÖ®ºó
-    Q->end = s;       // ĞŞ¸Ä±íÎ²Ö¸Õë
+    s->next = NULL;   // æ–°åŠ å…¥çš„ç»“ç‚¹ä¼šæ¥åœ¨å°¾éƒ¨ï¼Œæ‰€ä»¥nextæŒ‡é’ˆè¦æŒ‡å‘ç©º
+    Q->end->next = s; // æ–°ç»“ç‚¹æ’å…¥åˆ°endä¹‹å
+    Q->end = s;       // ä¿®æ”¹è¡¨å°¾æŒ‡é’ˆ
     Q->len++;
 }
-// ³ö¶Ó
+// å‡ºé˜Ÿ
 ElemType DeQueue(LinkQueue *Q)
 {
     if (Q->front == Q->end)
-        return -1;                // ¿Õ¶Ó
-    LinkNode *p = Q->front->next; // ´´½¨Ö¸Õëp±£´æÒªÉ¾³ıµÄ½áµã£¬¼´¿ÕÍ·½áµãµÄÏÂÒ»¸ö½áµã
-    ElemType x = p->data;         // ÓÃ±äÁ¿x±£´æ¶ÓÍ·ÔªËØµÄÖµ£¬ÓÃÓÚ·µ»Ø
-    Q->front->next = p->next;     // ĞŞ¸ÄÍ·½áµãµÄnextÖ¸Õë£¬¼´Ö¸ÕëÏÂÒÆÒ»Î»
+        return -1;                // ç©ºé˜Ÿ
+    LinkNode *p = Q->front->next; // åˆ›å»ºæŒ‡é’ˆpä¿å­˜è¦åˆ é™¤çš„ç»“ç‚¹ï¼Œå³ç©ºå¤´ç»“ç‚¹çš„ä¸‹ä¸€ä¸ªç»“ç‚¹
+    ElemType x = p->data;         // ç”¨å˜é‡xä¿å­˜é˜Ÿå¤´å…ƒç´ çš„å€¼ï¼Œç”¨äºè¿”å›
+    Q->front->next = p->next;     // ä¿®æ”¹å¤´ç»“ç‚¹çš„nextæŒ‡é’ˆï¼Œå³æŒ‡é’ˆä¸‹ç§»ä¸€ä½
 
-    if (Q->end == p)       // ´Ë´ÎÊÇ×îºóÒ»¸ö½áµã³ö¶Ó
-        Q->end = Q->front; // ĞŞ¸ÄendÖ¸Õë
+    if (Q->end == p)       // æ­¤æ¬¡æ˜¯æœ€åä¸€ä¸ªç»“ç‚¹å‡ºé˜Ÿ
+        Q->end = Q->front; // ä¿®æ”¹endæŒ‡é’ˆ
 
-    free(p); // ÊÍ·Å½áµã¿Õ¼ä
+    free(p); // é‡Šæ”¾ç»“ç‚¹ç©ºé—´
     Q->len--;
     return x;
 }
-// »ñÈ¡¶ÓÍ·ÔªËØ£¬²¢·µ»Ø
+// è·å–é˜Ÿå¤´å…ƒç´ ï¼Œå¹¶è¿”å›
 ElemType GetHead(LinkQueue Q)
 {
     if (Q.front == Q.end)
         return -1;
-    ElemType x = Q.front->next->data; // frontÖ¸ÏòµÄ¿ÕÍ·½áµã£¬ËùÒÔ¶ÓÍ·ÔªËØÎªÏÂÒ»¸ö½áµãµÄ
+    ElemType x = Q.front->next->data; // frontæŒ‡å‘çš„ç©ºå¤´ç»“ç‚¹ï¼Œæ‰€ä»¥é˜Ÿå¤´å…ƒç´ ä¸ºä¸‹ä¸€ä¸ªç»“ç‚¹çš„
     return x;
 }
-// »ñÈ¡¶Ó³¤
+// è·å–é˜Ÿé•¿
 int QueueLength(LinkQueue Q)
 {
     return Q.len;
@@ -86,21 +86,21 @@ int main()
 {
     LinkQueue q;
     InitQueue(&q);
-    // Îª¶ÓÁĞÌí¼Ó0~9µÄÔªËØ
+    // ä¸ºé˜Ÿåˆ—æ·»åŠ 0~9çš„å…ƒç´ 
     for (int i = 9; i != -1; --i)
     {
         EnQueue(&q, i);
     }
-    // ²é¿´¶ÓÍ·
-    printf("Èë¶ÓºóµÄ¶ÓÁĞ: %d\n", GetHead(q));
-    // ³ö¶Ó
+    // æŸ¥çœ‹é˜Ÿå¤´
+    printf("å…¥é˜Ÿåçš„é˜Ÿåˆ—: %d\n", GetHead(q));
+    // å‡ºé˜Ÿ
     DeQueue(&q);
-    printf("³ö¶ÓºóµÄ¶ÓÁĞ: %d\n", GetHead(q));
+    printf("å‡ºé˜Ÿåçš„é˜Ÿåˆ—: %d\n", GetHead(q));
 
     if (IsEmpty(q))
-        printf("¶ÓÁĞÎª¿Õ");
+        printf("é˜Ÿåˆ—ä¸ºç©º");
 
-    printf("ÏÖÔÚ¶ÓÁĞ³¤¶È: %d\n", QueueLength(q));
+    printf("ç°åœ¨é˜Ÿåˆ—é•¿åº¦: %d\n", QueueLength(q));
 
     system("pause");
     return 0;

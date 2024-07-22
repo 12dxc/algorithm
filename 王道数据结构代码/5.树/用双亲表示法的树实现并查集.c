@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #define MaxTreeSize 100 // 书中最多结点数
 #define ElemType int    // 并查集类型
 
@@ -20,7 +18,6 @@ typedef struct
 
 int main()
 {
-    system("chcp 65001");
 
     return 0;
 }

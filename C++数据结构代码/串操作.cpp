@@ -3,10 +3,10 @@
 #include <memory>
 using namespace std;
 
-// BF(ÆÓËØÄ£Ê½Æ¥Åä)Ëã·¨  Ê±¼ä¸´ÔÓ¶È£ºO(n)*O(m) =  O(n*m)   ¿Õ¼ä¸´ÔÓ¶È£º O(1)
+// BF(æœ´ç´ æ¨¡å¼åŒ¹é…)ç®—æ³•  æ—¶é—´å¤æ‚åº¦ï¼šO(n)*O(m) =  O(n*m)   ç©ºé—´å¤æ‚åº¦ï¼š O(1)
 int BF(string s, string t)
 {
-    int i = 0, j = 0; // ·Ö±ğÖ¸ÏòÖ÷´®ºÍÄ£Ê½´®µÄÄ³Ò»Î»
+    int i = 0, j = 0; // åˆ†åˆ«æŒ‡å‘ä¸»ä¸²å’Œæ¨¡å¼ä¸²çš„æŸä¸€ä½
     while (i < s.size() && j < t.size())
     {
         if (s[i] == t[j])
@@ -15,11 +15,11 @@ int BF(string s, string t)
         }
         else
         {
-            i = i - j + 1; // ¸´Î»i£¬Ö¸ÏòÖ®Ç°¿ªÊ¼Æ¥Åä×Ö·ûµÄÏÂÒ»¸ö×Ö·û  O(m)
+            i = i - j + 1; // å¤ä½iï¼ŒæŒ‡å‘ä¹‹å‰å¼€å§‹åŒ¹é…å­—ç¬¦çš„ä¸‹ä¸€ä¸ªå­—ç¬¦  O(m)
             j = 0;
         }
     }
-    if (j == t.size()) // ÕÒµ½ÁË ¼´jÔ½¹ı×Ó´®³¤¶È
+    if (j == t.size()) // æ‰¾åˆ°äº† å³jè¶Šè¿‡å­ä¸²é•¿åº¦
     {
         return i - j;
     }
@@ -28,12 +28,12 @@ int BF(string s, string t)
         return -1;
     }
 }
-// KMPËã·¨Çó½â×Ó´®µÄnextÊı×é
+// KMPç®—æ³•æ±‚è§£å­ä¸²çš„nextæ•°ç»„
 int *getNext(string str)
 {
     int *next = new int[str.size()];
-    int j = 0;  // jÓÃÀ´±éÀú×Ó´®
-    int k = -1; // k±íÊ¾¹«¹²Ç°ºó×ºµÄ³¤¶È
+    int j = 0;  // jç”¨æ¥éå†å­ä¸²
+    int k = -1; // kè¡¨ç¤ºå…¬å…±å‰åç¼€çš„é•¿åº¦
     next[j] = k;
 
     while (j < str.size() - 1)
@@ -43,7 +43,7 @@ int *getNext(string str)
             j++, k++;
 
             if (str[j] == str[k])
-            { // kmpËã·¨µÄÓÅ»¯
+            { // kmpç®—æ³•çš„ä¼˜åŒ–
                 next[j] = next[k];
             }
             else
@@ -54,21 +54,21 @@ int *getNext(string str)
         }
         else
         {
-            k = next[k]; // ×ökÖµ»ØËİ£¬¼ÌĞøÕÒ×î³¤µÄ¹«¹²Ç°ºó×º
+            k = next[k]; // åškå€¼å›æº¯ï¼Œç»§ç»­æ‰¾æœ€é•¿çš„å…¬å…±å‰åç¼€
         }
     }
     return next;
 }
-// KMPËã·¨  Ê±¼ä¸´ÔÓ¶È£ºO(n) + O(m) = O(n+m)  ¿Õ¼ä¸´ÔÓ¶È£ºO(m)
+// KMPç®—æ³•  æ—¶é—´å¤æ‚åº¦ï¼šO(n) + O(m) = O(n+m)  ç©ºé—´å¤æ‚åº¦ï¼šO(m)
 int KMP(string s, string t)
 {
-    int i = 0, j = 0; // ·Ö±ğÖ¸ÏòÖ÷´®ºÍÄ£Ê½´®µÄÄ³Ò»Î»
+    int i = 0, j = 0; // åˆ†åˆ«æŒ‡å‘ä¸»ä¸²å’Œæ¨¡å¼ä¸²çš„æŸä¸€ä½
 
-    // ¼ÆËãÒ»¸ö×Ó´®¶ÔÓ¦µÄnextÊı×é
+    // è®¡ç®—ä¸€ä¸ªå­ä¸²å¯¹åº”çš„nextæ•°ç»„
     int *next = getNext(t);
-    unique_ptr<int> ptr(next); // ×Ô¶¯delete
+    unique_ptr<int> ptr(next); // è‡ªåŠ¨delete
 
-    // j < t.size() ÓĞÎÊÌâ£¡£¡£¡ j = -1 11111111111  size_t  unsigned int
+    // j < t.size() æœ‰é—®é¢˜ï¼ï¼ï¼ j = -1 11111111111  size_t  unsigned int
     int size1 = s.size(), size2 = t.size();
     while (i < size1 && j < size2)
     {
@@ -78,11 +78,11 @@ int KMP(string s, string t)
         }
         else
         {
-            // KMPµÄºËĞÄÊÇ²»»ØÍËi£¬Ö»»ØÍËjÖµ
-            j = next[j]; // Èç¹ûÊ××ÖÄ¸Æ¥ÅäÊ§°Ü£¬ÕâÀïj == -1
+            // KMPçš„æ ¸å¿ƒæ˜¯ä¸å›é€€iï¼Œåªå›é€€jå€¼
+            j = next[j]; // å¦‚æœé¦–å­—æ¯åŒ¹é…å¤±è´¥ï¼Œè¿™é‡Œj == -1
         }
     }
-    if (j == t.size()) // ÕÒµ½ÁË ¼´jÔ½¹ı×Ó´®³¤¶È
+    if (j == t.size()) // æ‰¾åˆ°äº† å³jè¶Šè¿‡å­ä¸²é•¿åº¦
     {
         return i - j;
     }

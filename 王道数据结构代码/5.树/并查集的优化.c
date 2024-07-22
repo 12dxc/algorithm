@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #define SIZE 13
 int UFSets[SIZE]; // 集合元素数组
 
@@ -66,7 +63,6 @@ int Find(int s[], int x)
 
 int main()
 {
-    system("chcp 65001");
 
     return 0;
 }

@@ -1,5 +1,6 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
+
 
 // 希尔排序
 void ShellSort(int A[], int n)

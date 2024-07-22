@@ -16,12 +16,12 @@ class Solution
 public:
     TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
     {
-        // ²éÑ¯p¡¢qµÄ¹«¹²×æÏÈ½Úµã£¬¼´Òª²éÑ¯Âú×ã[p,q]Çø¼äµÄÔªËØ
-        if (root->val > p->val && root->val > q->val) // Èç¹ûval±Èp¡¢q¶¼´ó£¬ÔòËõÐ¡£¬Íù×ó±éÀú
+        // æŸ¥è¯¢pã€qçš„å…¬å…±ç¥–å…ˆèŠ‚ç‚¹ï¼Œå³è¦æŸ¥è¯¢æ»¡è¶³[p,q]åŒºé—´çš„å…ƒç´ 
+        if (root->val > p->val && root->val > q->val) // å¦‚æžœvalæ¯”pã€qéƒ½å¤§ï¼Œåˆ™ç¼©å°ï¼Œå¾€å·¦éåŽ†
             return lowestCommonAncestor(root->left, p, q);
-        if (root->val < p->val && root->val < q->val) // Èç¹ûval±Èp¡¢q¶¼Ð¡£¬ÔòÔö´ó£¬ÍùÓÒ±éÀú
+        if (root->val < p->val && root->val < q->val) // å¦‚æžœvalæ¯”pã€qéƒ½å°ï¼Œåˆ™å¢žå¤§ï¼Œå¾€å³éåŽ†
             return lowestCommonAncestor(root->right, p, q);
-        else // ¼´valÂú×ãÔÚp¡¢q»òq¡¢pÖ®¼ä£¬¶ø²»ÊÇÍ¬Ê±´óÓÚ»òÐ¡ÓÚp¡¢q
+        else // å³valæ»¡è¶³åœ¨pã€qæˆ–qã€pä¹‹é—´ï¼Œè€Œä¸æ˜¯åŒæ—¶å¤§äºŽæˆ–å°äºŽpã€q
             return root;
     }
 };

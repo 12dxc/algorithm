@@ -3,34 +3,34 @@
 #include <queue>
 using namespace std;
 
-using uint = unsigned int; // ±íÊ¾ÎŞ·ûºÅÕûĞÎ
-const uint INF = INT_MAX;  // ±íÊ¾¶¥µãÎŞ·¨µ½´ï
+using uint = unsigned int; // è¡¨ç¤ºæ— ç¬¦å·æ•´å½¢
+const uint INF = INT_MAX;  // è¡¨ç¤ºé¡¶ç‚¹æ— æ³•åˆ°è¾¾
 
-// µÏ½ÜË¹ÌØÀ­Ëã·¨½Ó¿Ú
+// è¿ªæ°æ–¯ç‰¹æ‹‰ç®—æ³•æ¥å£
 int Dijkstra(vector<vector<uint>> &graph,
-             int start, // Æğµã
-             int end)   // ÖÕµã
+             int start, // èµ·ç‚¹
+             int end)   // ç»ˆç‚¹
 {
     const int N = graph.size();
-    // ´æ´¢¸÷¸ö¶¥µãµÄ×î¶ÌÂ·¾¶(×îĞ¡È¨Öµ)
-    vector<uint> dis(N, 0); // ´æ´¢ÒÑÇó³öµÄ×î¶ÌÂ·¾¶ ¼¯ºÏU
+    // å­˜å‚¨å„ä¸ªé¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„(æœ€å°æƒå€¼)
+    vector<uint> dis(N, 0); // å­˜å‚¨å·²æ±‚å‡ºçš„æœ€çŸ­è·¯å¾„ é›†åˆU
     vector<bool> use(N, false);
 
-    // °Ñstart·ÅÈëS¼¯ºÏ
+    // æŠŠstartæ”¾å…¥Sé›†åˆ
     use[start] = true;
-    // ³õÊ¼»¯startµ½ÆäËüU¼¯ºÏ¶¥µãÈ¨Öµ
+    // åˆå§‹åŒ–startåˆ°å…¶å®ƒUé›†åˆé¡¶ç‚¹æƒå€¼
     for (int i; i < N; ++i)
         dis[i] = graph[start][i];
 
-    // °ÑU¼¯ºÏÖĞµÄ¶¥µã´¦ÀíÍê
+    // æŠŠUé›†åˆä¸­çš„é¡¶ç‚¹å¤„ç†å®Œ
     for (int i = 1; i < N; i++) // O(n)
     {
-        // ÏÈ´ÓU¼¯ºÏÖĞÕÒµ½È¨Öµ×îĞ¡µÄ¶¥µã
+        // å…ˆä»Ué›†åˆä¸­æ‰¾åˆ°æƒå€¼æœ€å°çš„é¡¶ç‚¹
         int k = -1;
         int min = INF;
         for (int j = 0; j < N; ++j)
         {
-            if (!use[j] && min > dis[j]) // U¼¯ºÏµÄ¶¥µã
+            if (!use[j] && min > dis[j]) // Ué›†åˆçš„é¡¶ç‚¹
             {
                 min = dis[j];
                 k = j;
@@ -38,22 +38,22 @@ int Dijkstra(vector<vector<uint>> &graph,
         }
 
         if (k == -1)
-            break; // ±íÊ¾ÒÑÃ»ÓĞÈ¥ÏÂÒ»¶¥µãµÄÂ·¾¶
+            break; // è¡¨ç¤ºå·²æ²¡æœ‰å»ä¸‹ä¸€é¡¶ç‚¹çš„è·¯å¾„
 
-        // °ÑÑ¡³öµÄ¶¥µã¼ÓÈëµ½S¼¯ºÏÖĞ
+        // æŠŠé€‰å‡ºçš„é¡¶ç‚¹åŠ å…¥åˆ°Sé›†åˆä¸­
         use[k] = true;
 
-        // °ÑU¼¯ºÏÖĞÊ£Óà¶¥µãµÄÈ¨ÖµĞÅÏ¢¸üĞÂÒ»ÏÂ
+        // æŠŠUé›†åˆä¸­å‰©ä½™é¡¶ç‚¹çš„æƒå€¼ä¿¡æ¯æ›´æ–°ä¸€ä¸‹
         for (int j = 0; j < N; ++j)
         {
-            if (!use[j] && min + graph[k][j] < dis[j]) // U¼¯ºÏ
+            if (!use[j] && min + graph[k][j] < dis[j]) // Ué›†åˆ
             {
                 dis[j] = min + graph[k][j];
             }
         }
     }
 
-    // ²âÊÔ´òÓ¡
+    // æµ‹è¯•æ‰“å°
     for (int d : dis)
     {
         cout << d << " ";
@@ -63,34 +63,34 @@ int Dijkstra(vector<vector<uint>> &graph,
     return dis[end];
 }
 
-// µÏ½ÜË¹ÌØÀ­Ëã·¨½Ó¿Ú  --Ğ¡¸ù¶ÑÓÅ»¯
+// è¿ªæ°æ–¯ç‰¹æ‹‰ç®—æ³•æ¥å£  --å°æ ¹å †ä¼˜åŒ–
 int Dijkstra2(vector<vector<uint>> &graph,
-              int start, // Æğµã
-              int end)   // ÖÕµã
+              int start, // èµ·ç‚¹
+              int end)   // ç»ˆç‚¹
 {
     const int N = graph.size();
-    // ´æ´¢¸÷¸ö¶¥µãµÄ×î¶ÌÂ·¾¶(×îĞ¡È¨Öµ)
-    vector<uint> dis(N, 0); // ´æ´¢ÒÑÇó³öµÄ×î¶ÌÂ·¾¶ ¼¯ºÏU
+    // å­˜å‚¨å„ä¸ªé¡¶ç‚¹çš„æœ€çŸ­è·¯å¾„(æœ€å°æƒå€¼)
+    vector<uint> dis(N, 0); // å­˜å‚¨å·²æ±‚å‡ºçš„æœ€çŸ­è·¯å¾„ é›†åˆU
     vector<bool> use(N, false);
 
-    // ¶¨ÒåĞ¡¸ù¶Ñ
+    // å®šä¹‰å°æ ¹å †
     priority_queue<pair<uint, int>, vector<pair<uint, int>>, greater<pair<uint, int>>> que;
 
-    // °Ñstart·ÅÈëS¼¯ºÏ
+    // æŠŠstartæ”¾å…¥Sé›†åˆ
     use[start] = true;
-    // ³õÊ¼»¯startµ½ÆäËüU¼¯ºÏ¶¥µãÈ¨Öµ
+    // åˆå§‹åŒ–startåˆ°å…¶å®ƒUé›†åˆé¡¶ç‚¹æƒå€¼
     for (int i; i < N; ++i)
     {
         dis[i] = graph[start][i];
-        if (i != start) // °Ñ³ıstart¶¥µãµÄÆäËü¶¥µãÈ«²¿·ÅÈëU¼¯ºÏĞ¡¸ù¶ÑÖĞ
+        if (i != start) // æŠŠé™¤starté¡¶ç‚¹çš„å…¶å®ƒé¡¶ç‚¹å…¨éƒ¨æ”¾å…¥Ué›†åˆå°æ ¹å †ä¸­
             que.emplace(graph[start][i], i);
     }
 
-    // °ÑU¼¯ºÏÖĞµÄ¶¥µã´¦ÀíÍê
+    // æŠŠUé›†åˆä¸­çš„é¡¶ç‚¹å¤„ç†å®Œ
     while (!que.empty()) // O(n)
     {
-        // ÓÃĞ¡¸ù¶ÑÕÒÈ¨Öµ×îĞ¡µÄ¶¥µã    O(logn)   pair<È¨Öµ£¬¶¥µã±àºÅ>
-        // ÏÈ´ÓU¼¯ºÏÖĞÕÒµ½È¨Öµ×îĞ¡µÄ¶¥µã
+        // ç”¨å°æ ¹å †æ‰¾æƒå€¼æœ€å°çš„é¡¶ç‚¹    O(logn)   pair<æƒå€¼ï¼Œé¡¶ç‚¹ç¼–å·>
+        // å…ˆä»Ué›†åˆä¸­æ‰¾åˆ°æƒå€¼æœ€å°çš„é¡¶ç‚¹
         auto pair = que.top();
         que.pop();
         if (pair.first == INF)
@@ -100,22 +100,22 @@ int Dijkstra2(vector<vector<uint>> &graph,
 
         if (use[k])
             continue;
-        // °ÑÑ¡³öµÄ¶¥µã¼ÓÈëµ½S¼¯ºÏÖĞ
+        // æŠŠé€‰å‡ºçš„é¡¶ç‚¹åŠ å…¥åˆ°Sé›†åˆä¸­
         use[k] = true;
 
-        // °ÑU¼¯ºÏÖĞÊ£Óà¶¥µãµÄÈ¨ÖµĞÅÏ¢¸üĞÂÒ»ÏÂ
+        // æŠŠUé›†åˆä¸­å‰©ä½™é¡¶ç‚¹çš„æƒå€¼ä¿¡æ¯æ›´æ–°ä¸€ä¸‹
         for (int j = 0; j < N; ++j)
         {
-            if (!use[j] && min + graph[k][j] < dis[j]) // U¼¯ºÏ
+            if (!use[j] && min + graph[k][j] < dis[j]) // Ué›†åˆ
             {
                 dis[j] = min + graph[k][j];
-                // ¸üĞÂU¼¯ºÏÖĞ¶¥µãµÄÈ¨Öµ£¡
+                // æ›´æ–°Ué›†åˆä¸­é¡¶ç‚¹çš„æƒå€¼ï¼
                 que.emplace(dis[j], j);
             }
         }
     }
 
-    // ²âÊÔ´òÓ¡
+    // æµ‹è¯•æ‰“å°
     for (int d : dis)
     {
         cout << d << " ";
@@ -126,7 +126,7 @@ int Dijkstra2(vector<vector<uint>> &graph,
 }
 int main()
 {
-    vector<vector<uint>> graph = // Í¼µÄÁÚ½Ó¾ØÕó
+    vector<vector<uint>> graph = // å›¾çš„é‚»æ¥çŸ©é˜µ
         {
             {0, 6, 3, INF, INF, INF},
             {6, 0, 2, 5, INF, INF},
@@ -139,7 +139,7 @@ int main()
     int distance = Dijkstra(graph, 1, 4);
     if (distance == INF)
     {
-        cout << "²»´æÔÚÓĞĞ§Â·¾¶!" << endl;
+        cout << "ä¸å­˜åœ¨æœ‰æ•ˆè·¯å¾„!" << endl;
     }
     else
     {

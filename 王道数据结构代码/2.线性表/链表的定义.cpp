@@ -1,24 +1,25 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 
-// ¶¨Òåµ¥Á´±í½áµãÀàĞÍ
-typedef struct
+// å®šä¹‰å•é“¾è¡¨ç»“ç‚¹ç±»å‹
+typedef struct LNode
 {
-    int data;    // Ã¿¸ö½Úµã´æ·ÅÒ»¸öÊı¾İÔªËØ
-    LNode *next; // Ö¸ÕëÖ¸ÏòÏÂÒ»½Úµã
+    int data;    // æ¯ä¸ªèŠ‚ç‚¹å­˜æ”¾ä¸€ä¸ªæ•°æ®å…ƒç´ 
+    LNode *next; // æŒ‡é’ˆæŒ‡å‘ä¸‹ä¸€èŠ‚ç‚¹
 } LNode, *LinkList;
 
-// ³õÊ¼»¯Ò»¸ö¿ÕµÄµ¥Á´±í£¨´øÍ·½áµã£©
+// åˆå§‹åŒ–ä¸€ä¸ªç©ºçš„å•é“¾è¡¨ï¼ˆå¸¦å¤´ç»“ç‚¹ï¼‰
 bool InitList(LinkList &L)
 {
-    L = (LNode *)malloc(sizeof(LNode)); // ·ÖÅäÒ»¸öÍ·½áµã
+    L = (LNode *)malloc(sizeof(LNode)); // åˆ†é…ä¸€ä¸ªå¤´ç»“ç‚¹
     if (L == NULL)
-        return false; // ÄÚ´æ²»×ã£¬·ÖÅäÊ§°Ü
+        return false; // å†…å­˜ä¸è¶³ï¼Œåˆ†é…å¤±è´¥
     L->next = NULL;
+    return true;
 }
 
-// ÅĞ¶ÏÁ´±íÊÇ·ñÎª¿Õ
+// åˆ¤æ–­é“¾è¡¨æ˜¯å¦ä¸ºç©º
 bool Empty(LinkList L)
 {
     if (L == NULL)
@@ -29,8 +30,8 @@ bool Empty(LinkList L)
 
 int main()
 {
-    LinkList L; // ÉùÃ÷Ò»¸öÖ¸Ïòµ¥Á´±íµÄÖ¸Õë
-    InitList(&L);
+    LinkList L; // å£°æ˜ä¸€ä¸ªæŒ‡å‘å•é“¾è¡¨çš„æŒ‡é’ˆ
+    InitList(L);
 
     return 0;
 }

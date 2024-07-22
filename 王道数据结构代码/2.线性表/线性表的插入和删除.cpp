@@ -1,15 +1,14 @@
 #include <cstdio>
-#include <cstdlib>
-#define MaxSize 10 // ¶¨Òå×î´ó³¤¶È
+#define MaxSize 10 // å®šä¹‰æœ€å¤§é•¿åº¦
 
-// ¶¨ÒåÒ»¸ö¾²Ì¬ÏßĞÔ±í
+// å®šä¹‰ä¸€ä¸ªé™æ€çº¿æ€§è¡¨
 typedef struct
 {
-    int data[MaxSize]; // ÓÃ¾²Ì¬µÄ¡°Êı×é¡±´æ·ÅÊı¾İÔªËØ
-    int length;        // Ë³Ğò±íµÄµ±Ç°³¤¶È
-} SqList;              // Ë³Ğò±íµÄÀàĞÍ¶¨Òå
+    int data[MaxSize]; // ç”¨é™æ€çš„â€œæ•°ç»„â€å­˜æ”¾æ•°æ®å…ƒç´ 
+    int length;        // é¡ºåºè¡¨çš„å½“å‰é•¿åº¦
+} SqList;              // é¡ºåºè¡¨çš„ç±»å‹å®šä¹‰
 
-// »ù±¾²Ù×÷¡ª¡ª³õÊ¼»¯Ò»¸öË³Ğò±í
+// åŸºæœ¬æ“ä½œâ€”â€”åˆå§‹åŒ–ä¸€ä¸ªé¡ºåºè¡¨
 void InitList(SqList *L)
 {
     for (int i = 0; i != MaxSize; ++i)
@@ -19,37 +18,37 @@ void InitList(SqList *L)
     L->length = 0;
 }
 
-// ÏßĞÔ±í²åÈë²Ù×÷
+// çº¿æ€§è¡¨æ’å…¥æ“ä½œ
 bool ListInsert(SqList *L, int i, int e)
 {
-    if (i < 1 || i > L->length + 1) // ÅĞ¶ÏiµÄ·¶Î§ÊÇ·ñÓĞĞ§
+    if (i < 1 || i > L->length + 1) // åˆ¤æ–­içš„èŒƒå›´æ˜¯å¦æœ‰æ•ˆ
         return false;
-    if (L->length >= MaxSize) // µ±Ç°´æ´¢¿Õ¼äÒÑÂú£¬½ûÖ¹´æÈë
+    if (L->length >= MaxSize) // å½“å‰å­˜å‚¨ç©ºé—´å·²æ»¡ï¼Œç¦æ­¢å­˜å…¥
         return false;
 
-    for (int j = L->length; j >= i; j--) // ½«µÚi¸öÔªËØ¼°Ö®ºóµÄÔªËØºóÒÆ
+    for (int j = L->length; j >= i; j--) // å°†ç¬¬iä¸ªå…ƒç´ åŠä¹‹åçš„å…ƒç´ åç§»
         L->data[j] = L->data[j - 1];
-    L->data[i - 1] = e; // ÔÚÎ»ÖÃindex·ÅÈëelem
-    L->length++;        // ³¤¶È¼Ó1
+    L->data[i - 1] = e; // åœ¨ä½ç½®indexæ”¾å…¥elem
+    L->length++;        // é•¿åº¦åŠ 1
     return true;
 }
 
-// ÏßĞÔ±íÉ¾³ı²Ù×÷
+// çº¿æ€§è¡¨åˆ é™¤æ“ä½œ
 bool ListDelete(SqList *L, int i, int &e)
 {
-    if (i < 1 || i > L->length) // ÅĞ¶ÏiµÄ·¶Î§ÊÇ·ñÓĞĞ§
+    if (i < 1 || i > L->length) // åˆ¤æ–­içš„èŒƒå›´æ˜¯å¦æœ‰æ•ˆ
         return false;
-    e = L->data[i - 1];                 // ½«±»É¾³ıµÄÔªËØ¸³Öµ¸øe
-    for (int j = i; i < L->length; j++) // ½«µÚi¸öÎ»ÖÃºóµÄÔªËØÇ°ÒÆ
+    e = L->data[i - 1];                 // å°†è¢«åˆ é™¤çš„å…ƒç´ èµ‹å€¼ç»™e
+    for (int j = i; i < L->length; j++) // å°†ç¬¬iä¸ªä½ç½®åçš„å…ƒç´ å‰ç§»
         L->data[j - 1] = L->data[j];
-    L->length--; // ÏßĞÔ±í³¤¶È¼õ1
+    L->length--; // çº¿æ€§è¡¨é•¿åº¦å‡1
     return true;
 }
 
 int main()
 {
-    SqList L;     // ÉùÃ÷Ò»¸öË³Ğò±í
-    InitList(&L); // ³õÊ¼»¯Ë³Ğò±í
+    SqList L;     // å£°æ˜ä¸€ä¸ªé¡ºåºè¡¨
+    InitList(&L); // åˆå§‹åŒ–é¡ºåºè¡¨
     int e = -1;
 
     ListInsert(&L, 1, 100);

@@ -1,42 +1,41 @@
-#include <stdio.h>
 #include <stdlib.h>
 
-#define InitSize 10 // Ä¬ÈÏµÄ×î´ó³¤¶È
+#define InitSize 10 // é»˜è®¤çš„æœ€å¤§é•¿åº¦
 
-// ¶¨ÒåÒ»¸ö¶¯Ì¬ÏßĞÔ±í
+// å®šä¹‰ä¸€ä¸ªåŠ¨æ€çº¿æ€§è¡¨
 typedef struct
 {
-    int *data;   // Ö¸Ê¾¶¯Ì¬·ÖÅäÊı×éµÄÖ¸Õë
-    int MaxSize; // Ë³Ğò±íµÄ×î´óÈİÁ¿
-    int length;  // Ë³Ğò±íµÄµ±Ç°³¤¶È
-} SeqList;       // Ë³Ğò±íµÄÀàĞÍ¶¨Òå£¨¶¯Ì¬·ÖÅä·½Ê½£©
+    int *data;   // æŒ‡ç¤ºåŠ¨æ€åˆ†é…æ•°ç»„çš„æŒ‡é’ˆ
+    int MaxSize; // é¡ºåºè¡¨çš„æœ€å¤§å®¹é‡
+    int length;  // é¡ºåºè¡¨çš„å½“å‰é•¿åº¦
+} SeqList;       // é¡ºåºè¡¨çš„ç±»å‹å®šä¹‰ï¼ˆåŠ¨æ€åˆ†é…æ–¹å¼ï¼‰
 
-// »ù±¾²Ù×÷¡ª¡ª³õÊ¼»¯Ò»¸öË³Ğò±í
+// åŸºæœ¬æ“ä½œâ€”â€”åˆå§‹åŒ–ä¸€ä¸ªé¡ºåºè¡¨
 void InitList(SeqList *L)
 {
-    // ÓÃmallocº¯ÊıÉêÇëÒ»Æ¬Á¬ĞøµÄ´æ´¢¿Õ¼ä
+    // ç”¨mallocå‡½æ•°ç”³è¯·ä¸€ç‰‡è¿ç»­çš„å­˜å‚¨ç©ºé—´
     L->data = (int *)malloc(sizeof(int) * InitSize);
     L->length = 0;
     L->MaxSize = InitSize;
 }
 
-// Ôö¼Ó¶¯Ì¬Êı×é³¤¶È
+// å¢åŠ åŠ¨æ€æ•°ç»„é•¿åº¦
 void IncreaseSize(SeqList *L, int len)
 {
-    int *p = L->data;                                          // ÁÙÊ±Ö¸ÕëÖ¸ÏòÔ­ÓĞÏßĞÔ±í
-    L->data = (int *)malloc((L->MaxSize + len) * sizeof(int)); // ÖØĞÂ·ÖÅä¸ü´ó¿Õ¼ä
+    int *p = L->data;                                          // ä¸´æ—¶æŒ‡é’ˆæŒ‡å‘åŸæœ‰çº¿æ€§è¡¨
+    L->data = (int *)malloc((L->MaxSize + len) * sizeof(int)); // é‡æ–°åˆ†é…æ›´å¤§ç©ºé—´
     for (int i = 0; i != L->length; ++i)
     {
-        L->data[i] = p[i]; // ½«Êı¾İ¸´ÖÆµ½ĞÂÇøÓò
+        L->data[i] = p[i]; // å°†æ•°æ®å¤åˆ¶åˆ°æ–°åŒºåŸŸ
     }
-    L->MaxSize = L->MaxSize + len; // Ë³Ğò±í×î´ó³¤¶ÈÔö¼Ó len
-    free(p);                       // ÊÍ·ÅÔ­À´ÄÚ´æ¿Õ¼ä
+    L->MaxSize = L->MaxSize + len; // é¡ºåºè¡¨æœ€å¤§é•¿åº¦å¢åŠ  len
+    free(p);                       // é‡Šæ”¾åŸæ¥å†…å­˜ç©ºé—´
 }
 
 int main()
 {
-    SeqList L;    // ÉùÃ÷Ò»¸öË³Ğò±í
-    InitList(&L); // ³õÊ¼»¯Ë³Ğò±í
+    SeqList L;    // å£°æ˜ä¸€ä¸ªé¡ºåºè¡¨
+    InitList(&L); // åˆå§‹åŒ–é¡ºåºè¡¨
 
     IncreaseSize(&L, 5);
 

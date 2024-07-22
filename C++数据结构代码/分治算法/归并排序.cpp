@@ -3,10 +3,10 @@
 #include <cstdlib>
 using namespace std;
 
-// ºÏ²¢»®·ÖĞòÁĞ
+// åˆå¹¶åˆ’åˆ†åºåˆ—
 void Merge(vector<int> &vec, int low, int high, int mid)
 {
-    // ¶¨Òå¸¨ÖúÊı×é£¬´æ´¢ºÏ²¢ºÃµÄ»®·ÖĞòÁĞ
+    // å®šä¹‰è¾…åŠ©æ•°ç»„ï¼Œå­˜å‚¨åˆå¹¶å¥½çš„åˆ’åˆ†åºåˆ—
     vector<int> temp;
 
     int i = low;
@@ -14,16 +14,16 @@ void Merge(vector<int> &vec, int low, int high, int mid)
 
     while (i <= mid && j <= high)
     {
-        if (vec[i] > vec[j]) // ×óĞòÁĞ¸ü´ó£»ÔòÏÈ½«ÓÒĞòÁĞÔªËØ¼ÓÈëÊı×é£¬²¢Ö¸ÏòÆäÏÂÒ»ÔªËØ
+        if (vec[i] > vec[j]) // å·¦åºåˆ—æ›´å¤§ï¼›åˆ™å…ˆå°†å³åºåˆ—å…ƒç´ åŠ å…¥æ•°ç»„ï¼Œå¹¶æŒ‡å‘å…¶ä¸‹ä¸€å…ƒç´ 
         {
             temp.push_back(vec[j++]);
         }
-        else // ÓÒĞòÁĞ¸ü´ó£»ÔòÏÈ½«×óĞòÁĞÔªËØ¼ÓÈëÊı×é£¬²¢Ö¸ÏòÆäÏÂÒ»ÔªËØ
+        else // å³åºåˆ—æ›´å¤§ï¼›åˆ™å…ˆå°†å·¦åºåˆ—å…ƒç´ åŠ å…¥æ•°ç»„ï¼Œå¹¶æŒ‡å‘å…¶ä¸‹ä¸€å…ƒç´ 
         {
             temp.push_back(vec[i++]);
         }
     }
-    // ÅĞ¶ÏÄÄ¸öĞòÁĞÎ´ÅÅÍê£¬½«ĞòÁĞÅÅÖÁÊı×éÄ©Î²
+    // åˆ¤æ–­å“ªä¸ªåºåˆ—æœªæ’å®Œï¼Œå°†åºåˆ—æ’è‡³æ•°ç»„æœ«å°¾
     while (i <= mid)
     {
         temp.push_back(vec[i++]);
@@ -33,23 +33,23 @@ void Merge(vector<int> &vec, int low, int high, int mid)
         temp.push_back(vec[j++]);
     }
 
-    // ×îºó½«ºÏ²¢ºÃµÄĞòÁĞ£¬¼ÓÈëÔ­Êı×é
+    // æœ€åå°†åˆå¹¶å¥½çš„åºåˆ—ï¼ŒåŠ å…¥åŸæ•°ç»„
     for (int k = low; k <= high; ++k)
     {
         vec[k] = temp[k - low];
     }
 }
-// ¹é²¢ÅÅĞò
+// å½’å¹¶æ’åº
 void MergeSort(vector<int> &vec, int l, int r)
 {
     if (l >= r)
         return;
-    // ¹é²¢»®·Ö
+    // å½’å¹¶åˆ’åˆ†
     int mid = (l + r) / 2;
     MergeSort(vec, l, mid);
     MergeSort(vec, mid + 1, r);
 
-    // ºÏ²¢
+    // åˆå¹¶
     Merge(vec, l, r, mid);
 }
 int main()
@@ -64,7 +64,7 @@ int main()
 
     MergeSort(v, 0, v.size() - 1);
 
-    // ´òÓ¡ÅÅºÃĞòÁĞ
+    // æ‰“å°æ’å¥½åºåˆ—
     for (auto i : v)
         cout << i << " ";
     cout << endl;

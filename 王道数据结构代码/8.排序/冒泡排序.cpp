@@ -1,5 +1,6 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
+
 
 // 交换
 void swap(int &a, int &b)
@@ -21,7 +22,7 @@ void BubbleSort(int A[], int n)
                 swap(A[j - 1], A[j]); // 交换
                 flag = true;
             }
-        if (flag = false)
+        if (flag == false)
             return; // 本趟遍历后没有发生交换，说明表已经有序
     }
 }
